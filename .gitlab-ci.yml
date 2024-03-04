@@ -1,0 +1,16 @@
+image: mcr.microsoft.com/dotnet/sdk:8.0
+
+# Generic rules: do not re-run anything when adding a tag
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: always
+
+stages:
+  - build
+  - test
+
+# Fetch the most up-to-date pipeline
+include:
+  - remote: 'https://gitlab.mff.cuni.cz/teaching/nprg038/2023/tests/-/raw/master/ci.yml'
