@@ -13,5 +13,6 @@ namespace PhysicsUnitsLib
         {
             return $"{Value} seconds";
         }
+        
     }
 }

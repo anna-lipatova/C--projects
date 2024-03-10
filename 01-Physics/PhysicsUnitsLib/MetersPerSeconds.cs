@@ -4,10 +4,10 @@ using System.Text;
 
 namespace PhysicsUnitsLib
 {
-    public struct MetersPerSeconds
+    public struct MeterPerSeconds
     {
         public double Value {  get; }
-        public MetersPerSeconds(double value)
+        public MeterPerSeconds(double value)
         {
             Value = value;
         }
@@ -23,14 +23,14 @@ namespace PhysicsUnitsLib
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static MetersPerSeconds operator *(MetersPerSeconds left, int right)
+        public static MeterPerSeconds operator *(MeterPerSeconds left, int right)
         {
-            return new MetersPerSeconds(left.Value * right);
+            return new MeterPerSeconds(left.Value * right);
         }
 
-        public static MetersPerSeconds operator *(int left, MetersPerSeconds right)
+        public static MeterPerSeconds operator *(int left, MeterPerSeconds right)
         {
-            return new MetersPerSeconds(left * right.Value);
+            return new MeterPerSeconds(left * right.Value);
         }
 
         /// <summary>
@@ -39,14 +39,14 @@ namespace PhysicsUnitsLib
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static MetersPerSeconds operator *(MetersPerSeconds left, double right)
+        public static MeterPerSeconds operator *(MeterPerSeconds left, double right)
         {
-            return new MetersPerSeconds(left.Value * right);
+            return new MeterPerSeconds(left.Value * right);
         }
 
-        public static MetersPerSeconds operator *(double left, MetersPerSeconds right)
+        public static MeterPerSeconds operator *(double left, MeterPerSeconds right)
         {
-            return new MetersPerSeconds(left * right.Value);
+            return new MeterPerSeconds(left * right.Value);
         }
 
         /// <summary>
@@ -55,14 +55,14 @@ namespace PhysicsUnitsLib
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static MetersPerSeconds operator +(MetersPerSeconds left, int right)
+        public static MeterPerSeconds operator +(MeterPerSeconds left, int right)
         {
-            return new MetersPerSeconds(left.Value + right);
+            return new MeterPerSeconds(left.Value + right);
         }
 
-        public static MetersPerSeconds operator +(int left, MetersPerSeconds right)
+        public static MeterPerSeconds operator +(int left, MeterPerSeconds right)
         {
-            return new MetersPerSeconds(left + right.Value);
+            return new MeterPerSeconds(left + right.Value);
         }
 
         /// <summary>
@@ -71,14 +71,14 @@ namespace PhysicsUnitsLib
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static MetersPerSeconds operator +(MetersPerSeconds left, double right)
+        public static MeterPerSeconds operator +(MeterPerSeconds left, double right)
         {
-            return new MetersPerSeconds(left.Value + right);
+            return new MeterPerSeconds(left.Value + right);
         }
 
-        public static MetersPerSeconds operator +(double left, MetersPerSeconds right)
+        public static MeterPerSeconds operator +(double left, MeterPerSeconds right)
         {
-            return new MetersPerSeconds(left + right.Value);
+            return new MeterPerSeconds(left + right.Value);
         }
 
         /// <summary>
@@ -87,14 +87,14 @@ namespace PhysicsUnitsLib
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static MetersPerSeconds operator -(MetersPerSeconds left, int right)
+        public static MeterPerSeconds operator -(MeterPerSeconds left, int right)
         {
-            return new MetersPerSeconds(left.Value - right);
+            return new MeterPerSeconds(left.Value - right);
         }
 
-        public static MetersPerSeconds operator -(int left, MetersPerSeconds right)
+        public static MeterPerSeconds operator -(int left, MeterPerSeconds right)
         {
-            return new MetersPerSeconds(left - right.Value);
+            return new MeterPerSeconds(left - right.Value);
         }
 
         /// <summary>
@@ -103,14 +103,14 @@ namespace PhysicsUnitsLib
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static MetersPerSeconds operator -(MetersPerSeconds left, double right)
+        public static MeterPerSeconds operator -(MeterPerSeconds left, double right)
         {
-            return new MetersPerSeconds(left.Value - right);
+            return new MeterPerSeconds(left.Value - right);
         }
 
-        public static MetersPerSeconds operator -(double left, MetersPerSeconds right)
+        public static MeterPerSeconds operator -(double left, MeterPerSeconds right)
         {
-            return new MetersPerSeconds(left - right.Value);
+            return new MeterPerSeconds(left - right.Value);
         }
 
 
@@ -121,7 +121,7 @@ namespace PhysicsUnitsLib
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Meters operator *(MetersPerSeconds left, Seconds right)
+        public static Meters operator *(MeterPerSeconds left, Seconds right)
         {
             return new Meters(left.Value * right.Value);
         }
@@ -133,7 +133,7 @@ namespace PhysicsUnitsLib
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Seconds operator /(Meters left, MetersPerSeconds right)
+        public static Seconds operator /(Meters left, MeterPerSeconds right)
         {
             return new Seconds(left.Value / right.Value);
         }

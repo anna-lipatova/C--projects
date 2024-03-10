@@ -55,9 +55,9 @@ namespace PhysicsUnitsLib
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static MetersPerSeconds MetersPerSeconds(this double value)
+        public static MeterPerSeconds MeterPerSeconds(this double value)
         {
-            return new MetersPerSeconds(value);
+            return new MeterPerSeconds(value);
         }
 
         /// <summary>
@@ -65,9 +65,9 @@ namespace PhysicsUnitsLib
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static MetersPerSeconds MetersPerSeconds(this int value)
+        public static MeterPerSeconds MeterPerSeconds(this int value)
         {
-            return new MetersPerSeconds(value);
+            return new MeterPerSeconds(value);
         }
     }
 }

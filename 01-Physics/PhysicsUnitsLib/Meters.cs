@@ -55,9 +55,9 @@ namespace PhysicsUnitsLib {
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static MetersPerSeconds operator /(Meters left, Seconds right)
+        public static MeterPerSeconds operator /(Meters left, Seconds right)
         {
-            return new MetersPerSeconds(left.Value / right.Value);
+            return new MeterPerSeconds(left.Value / right.Value);
         }
     }
 }
