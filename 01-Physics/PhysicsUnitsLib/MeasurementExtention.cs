@@ -6,6 +6,7 @@ namespace PhysicsUnitsLib
 {
     public static class MeasurementExtention
     {
+
         /// <summary>
         /// return new Meters-type instance with double value
         /// example:
