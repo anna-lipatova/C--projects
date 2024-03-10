@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PhysicsUnitsLib
 {
-    public class MetersPerSeconds
+    public struct MetersPerSeconds
     {
         public double Value {  get; }
         public MetersPerSeconds(double value)
