@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace PhysicsUnitsLib {
+
+    public struct Meters
+    {
+        public double Value { get; }
+
+        public Meters(double value)
+        {
+            Value = value;
+        }
+
+
+        /// <summary>
+        /// operator overload for sum
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static Meters operator +(Meters left, Meters right)
+        {
+            return new Meters(left.Value + right.Value);
+        }
+
+
+        /// <summary>
+        /// operator overload for difference
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static Meters operator -(Meters left, Meters right)
+        {
+            return new Meters(left.Value - right.Value);
+        }
+
+
+        /// <summary>
+        /// method overload Meters => ToString 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"{Value} meters";
+        }
+    }
+}
