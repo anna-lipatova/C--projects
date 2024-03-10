@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PhysicsUnitsLib
 {
-    internal class MetersPerSeconds
+    public class MetersPerSeconds
     {
         public double Value {  get; }
         public MetersPerSeconds(double value)
