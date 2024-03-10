@@ -46,5 +46,18 @@ namespace PhysicsUnitsLib {
         {
             return $"{Value} meters";
         }
+
+
+        /// <summary>
+        /// operator / overload for Meters and Seconds
+        /// returns MetersPerSeconds
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static MetersPerSeconds operator /(Meters left, Seconds right)
+        {
+            return new MetersPerSeconds(left.Value / right.Value);
+        }
     }
 }
