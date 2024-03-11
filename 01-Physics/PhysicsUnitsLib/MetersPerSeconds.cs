@@ -7,7 +7,9 @@ namespace PhysicsUnitsLib
     public struct MeterPerSeconds
     {
         public double Value {  get; }
-        public MeterPerSeconds(double value)
+
+        //with default value = 0.0
+        public MeterPerSeconds(double value = 0.0)
         {
             Value = value;
         }
