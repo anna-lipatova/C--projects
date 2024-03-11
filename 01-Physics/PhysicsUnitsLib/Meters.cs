@@ -8,7 +8,8 @@ namespace PhysicsUnitsLib {
     {
         public double Value { get; }
 
-        public Meters(double value)
+        //with default value = 0.0
+        public Meters(double value = 0.0)
         {
             Value = value;
         }
@@ -56,6 +57,43 @@ namespace PhysicsUnitsLib {
             return new Meters(left.Value - right.Value);
         }
 
+        /// <summary>
+        /// operator > overload for Meters, double, Int
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        /// 
+
+        public static bool operator >(Meters left, Meters right)
+        {
+            return left.Value > right.Value;
+        }
+
+        public static bool operator <(Meters left, Meters right)
+        {
+            return (left.Value < right.Value);
+        }
+
+        public static bool operator >(Meters left, double right)
+        {
+            return left.Value > right;
+        }
+
+        public static bool operator >(double left, Meters right)
+        {
+            return (left > right.Value);
+        }
+
+        public static bool operator <(Meters left, double right)
+        {
+            return (left.Value < right);
+        }
+
+        public static bool operator <(double left, Meters right)
+        {
+            return (left < right.Value);
+        }
 
         /// <summary>
         /// method overload Meters => ToString 
@@ -78,5 +116,8 @@ namespace PhysicsUnitsLib {
         {
             return new MeterPerSeconds(left.Value / right.Value);
         }
+
+
+       
     }
 }
