@@ -25,6 +25,25 @@ namespace PhysicsUnitsLib {
             return new Meters(left.Value + right.Value);
         }
 
+        public static Meters operator +(Meters left, double right)
+        {
+            return new Meters(left.Value + right);
+        }
+
+        public static Meters operator +(double left, Meters right)
+        {
+            return new Meters (left + right.Value);
+        }
+
+        public static Meters operator +(Meters left, int right)
+        {
+            return new Meters(left.Value + right);
+        }
+
+        public static Meters operator +(int left, Meters right)
+        {
+            return new Meters(left + right.Value);
+        }
 
         /// <summary>
         /// operator overload for difference
