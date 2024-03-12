@@ -1,4 +1,7 @@
-﻿namespace GamePhysics {
+﻿using System;
+using PhysicsUnitsLib;
+
+namespace GamePhysics {
 
 	// IMPORTANT NOTE: You should NOT change this file as part of your solution! Put you implementation into PhysicsUnitsLib project only.
 
