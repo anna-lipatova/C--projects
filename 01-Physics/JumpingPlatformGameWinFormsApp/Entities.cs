@@ -80,10 +80,54 @@
         }
     }
 
-    class MovableJumpingEntity : MovableEntity {
-	}
+    //TODO: inherit run + implement jump
+    class MovableJumpingEntity : MovableEntity
+    {
+        public Movement Vertical { get; private set; }
+        private bool isJumping = false;
 
-	class Joe : MovableEntity {
+        public MovableJumpingEntity() : base()
+        {
+            Vertical = new Movement();
+        }
+
+        public override void Update(Seconds updatePeriod)
+        {
+            //update for horizontal movement
+            base.Update(updatePeriod);
+
+            //initually if vertical speed is negative the entity must run.
+            //as speed has already been changed to positive value <= JumpButton was clicked
+            //entity is not still jumping (as it is running)
+            if (!isJumping && Vertical.Speed.Value > 0)
+            {
+                //it must start to jump
+                isJumping = true;
+            }
+
+            if (isJumping)
+            {
+                //calculate change of hor pos = m/s * s = m
+                var verticalPositionY = Vertical.Speed.Value * updatePeriod.Value;
+                //position update
+                Location = new WorldPoint(Location.X, Location.Y + verticalPositionY);
+
+                //if entity is out off bound => correct new Location
+                if (Location.Y > Vertical.UpperBound.Value)
+                {
+                    Vertical.Speed = new MeterPerSeconds(-Math.Abs(Vertical.Speed.Value));
+                }
+                else if (Location.Y < Vertical.LowerBound.Value)
+                {
+                    Location = new WorldPoint(Location.X, Vertical.LowerBound);
+                    Vertical.Speed = new MeterPerSeconds(-Math.Abs(Vertical.Speed.Value)); //baseground
+                }
+            }
+        }
+
+    }
+
+    class Joe : MovableEntity {
 		public override string ToString() => "Joe";
 		public override Color Color => Color.Blue;
 	}
