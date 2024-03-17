@@ -4,9 +4,51 @@
 	
 	class Entity {
 		public virtual Color Color => Color.Black;
-	}
 
-	class MovableEntity : Entity {
+        public WorldPoint Location { get; set; }
+
+        public Entity()
+        {
+        }
+
+        public virtual void Update(Seconds updatePeriod) { }
+    }
+
+    /// <summary>
+    /// struct WorldPoint save and remember position 
+    /// </summary>
+    public struct WorldPoint
+    {
+        public Meters X { get; set; }
+        public Meters Y { get; set; }
+
+        public WorldPoint(Meters x, Meters y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+
+
+    /// <summary>
+    /// represent allowed movement (move) and its parts
+    /// such as speed and bounds (boundaries)
+    /// </summary>
+    class Movement
+    {
+        public MeterPerSeconds Speed { get; set; }
+        public Meters LowerBound { get; set; }
+        public Meters UpperBound { get; set; }
+
+        public Movement()
+        {
+            Speed = new MeterPerSeconds(0);
+            LowerBound = new Meters(double.MinValue);
+            UpperBound = new Meters(double.MaxValue);
+        }
+    }
+
+    class MovableEntity : Entity {
 	}
 
 	class MovableJumpingEntity : MovableEntity {
