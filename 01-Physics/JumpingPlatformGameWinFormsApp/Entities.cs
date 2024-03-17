@@ -1,4 +1,7 @@
-﻿namespace JumpingPlatformGame {
+﻿using System;
+using PhysicsUnitsLib;
+
+namespace JumpingPlatformGame {
 
 	// TODO: Provide your implementation of the following classes using your types from the PhysicsUnitsLib project.
 	
