@@ -48,10 +48,39 @@
         }
     }
 
-    class MovableEntity : Entity {
-	}
+    //TODO: run
+    class MovableEntity : Entity
+    {
+        public Movement Horizontal { get; private set; }
 
-	class MovableJumpingEntity : MovableEntity {
+        public MovableEntity()
+        {
+            Horizontal = new Movement();
+        }
+
+        public override void Update(Seconds updatePeriod)
+        {
+            //calculate change of hor pos = m/s * s = m
+            var horizontalPositionX = Horizontal.Speed.Value * updatePeriod.Value;
+
+            //position update
+            Location = new WorldPoint(Location.X + horizontalPositionX, Location.Y);
+
+            //if entity is out off bound => correct new Location
+            if (Location.X > Horizontal.UpperBound.Value)
+            {
+                Location = new WorldPoint(Horizontal.UpperBound, Location.Y);
+                Horizontal.Speed = new MeterPerSeconds(-Math.Abs(Horizontal.Speed.Value));
+            }
+            else if (Location.X < Horizontal.LowerBound.Value)
+            {
+                Location = new WorldPoint(Horizontal.LowerBound, Location.Y);
+                Horizontal.Speed = new MeterPerSeconds(Math.Abs(Horizontal.Speed.Value));
+            }
+        }
+    }
+
+    class MovableJumpingEntity : MovableEntity {
 	}
 
 	class Joe : MovableEntity {
