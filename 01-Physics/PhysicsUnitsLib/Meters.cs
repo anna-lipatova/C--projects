@@ -78,26 +78,7 @@ namespace PhysicsUnitsLib {
 
         //no need in these overloaded operators fro every case of parameter's type
         //because there are implicit overload operators for int and double
-        //public static bool operator >(Meters left, double right)
-        //{
-        //    return left.Value > right;
-        //}
-
-        //public static bool operator >(double left, Meters right)
-        //{
-        //    return (left > right.Value);
-        //}
-
-        //public static bool operator <(Meters left, double right)
-        //{
-        //    return (left.Value < right);
-        //}
-
-        //public static bool operator <(double left, Meters right)
-        //{
-        //    return (left < right.Value);
-        //}
-
+        
         /// <summary>
         /// method overload Meters => ToString 
         /// </summary>
