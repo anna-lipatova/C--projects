@@ -9,8 +9,7 @@ namespace PhysicsUnitsLib
     {
         public double Value {  get; }
 
-        //with default value = 0.0
-        public MeterPerSeconds(double value = 0.0)
+        public MeterPerSeconds(double value)
         {
             Value = value;
         }
