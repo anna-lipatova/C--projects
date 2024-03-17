@@ -4,7 +4,15 @@
 	
 	class Entity {
 		public virtual Color Color => Color.Black;
-	}
+
+        public WorldPoint Location { get; set; }
+
+        public Entity()
+        {
+        }
+
+        public virtual void Update(Seconds updatePeriod) { }
+    }
 
 	class MovableEntity : Entity {
 	}
