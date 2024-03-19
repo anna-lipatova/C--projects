@@ -13,10 +13,7 @@ namespace PhysicsUnitsLib
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Meters Meters(this double value)
-        {
-            return new Meters(value);
-        }
+        public static Meters Meters(this double value) => new Meters(value);
 
         /// <summary>
         /// return new Meters-type instance with double( <= int) value
@@ -25,50 +22,34 @@ namespace PhysicsUnitsLib
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Meters Meters(this int value)
-        {
-            return new Meters(value);
-        }
+        public static Meters Meters(this int value) => new Meters(value);
 
         /// <summary>
         /// return new Seconds-type instance with double value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Seconds Seconds(this double value)
-        {
-            return new Seconds(value);
-        }
+        public static Seconds Seconds(this double value) => new Seconds(value);
 
         /// <summary>
         /// return new Seconds-type instance with double ( <= int) value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Seconds Seconds(this int value)
-        {
-            return new Seconds(value);
-        }
+        public static Seconds Seconds(this int value) => new Seconds(value);
 
         /// <summary>
         /// return new MetersPerSeconds-type instance with double value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static MeterPerSeconds MeterPerSeconds(this double value)
-        {
-            return new MeterPerSeconds(value);
-        }
+        public static MeterPerSeconds MeterPerSeconds(this double value) => new MeterPerSeconds(value);
 
         /// <summary>
         /// return new MetersPerSeconds-type instance with double ( <= int) value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static MeterPerSeconds MeterPerSeconds(this int value)
-        {
-            return new MeterPerSeconds(value);
-        }
+        public static MeterPerSeconds MeterPerSeconds(this int value) => new MeterPerSeconds(value);
     }
 }
-;
