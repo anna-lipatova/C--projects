@@ -34,10 +34,12 @@
     }
 
     /// <summary>
-    /// struct specifying the location of a control on a canvas
+    /// struct specifying the location of a control on a canvas // OR CLASS?????
     /// At return TControl object located on a canvas
     /// </summary>
     /// <typeparam name="TControl"></typeparam>
+    /// 
+    //public class CanvasLocationSettings<TControl>
     public struct CanvasLocationSettings<TControl>
         where TControl: Control
     {
