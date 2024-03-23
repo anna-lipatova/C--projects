@@ -48,4 +48,21 @@ namespace MinimalisticUIFramework
         //do not need GetChildPropertiesToString()
     }
 
+    public class Canvas: Panel
+    {
+        private List<Point> _childPoints = new();
+
+        protected override string GetName => "Canvas";
+
+        protected override string GetChildPropertiesToString(int childIndex)
+        {
+            return $"at {_childPoints[childIndex].X}, {_childPoints[childIndex].Y}";
+        }
+        public void AddChild(Control child, Point point)
+        {
+            _nestedChildren.Add(child);
+            _childPoints.Add(point);
+        }
+  
+    }
 }
