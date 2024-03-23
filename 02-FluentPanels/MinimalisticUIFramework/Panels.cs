@@ -38,4 +38,14 @@ namespace MinimalisticUIFramework
         public int X { get; set; }
         public int Y { get; set; }
     }
+
+    public class StackPanel: Panel
+    {
+        public void AddChild(Control child) => _nestedChildren.Add(child);
+
+        protected override string GetName => "StackPanel";
+
+        //do not need GetChildPropertiesToString()
+    }
+
 }
