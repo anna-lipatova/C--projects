@@ -34,7 +34,7 @@
     }
 
     /// <summary>
-    /// specifying the location of a control on a canvas // OR CLASS?????
+    /// specifying the location of a control on a canvas // STRUCT OR CLASS?????
     /// At return TControl object located on a canvas
     /// </summary>
     /// <typeparam name="TControl"></typeparam>
