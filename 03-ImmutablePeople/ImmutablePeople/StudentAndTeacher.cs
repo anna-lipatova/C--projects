@@ -4,12 +4,18 @@ using System.Text;
 
 namespace ImmutablePeople
 {
-    public class Student: Person
+    /// <summary>
+    /// Student is an appropriate child for Person<Student> 
+    /// </summary>
+    public class Student: Person<Student>
     {
         public DateTime DateEnrolled { get; init; }
     }
 
-    public class Teacher: Person
+    /// <summary>
+    /// Teacher is an appropriate child for Person<Teacher>
+    /// </summary>
+    public class Teacher: Person<Teacher>
     {
         public int CoursesHeld { get; init; }
     }
