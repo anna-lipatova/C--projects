@@ -26,5 +26,14 @@ namespace ImmutablePeople
                 return new TPerson();
             }
         }
+
+        //copy of the Person which will have a new value of Property
+        //need copy due to immutability
+        abstract public TPerson TPersonCopy(string copyName, string copyPassword);
+
+        public TPerson WithName(string newName) => TPersonCopy(newName, Password);
+
+        public TPerson WithPassword(string newPassword) => TPersonCopy(Name, newPassword);
+
     }
 }
