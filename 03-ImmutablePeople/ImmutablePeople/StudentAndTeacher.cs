@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace ImmutablePeople
@@ -9,9 +10,9 @@ namespace ImmutablePeople
     /// </summary>
     public class Student: Person<Student>
     {
-        public DateTime DateEnrolled { get; }
+        public DateOnly DateEnrolled { get; }
 
-        public Student(string name, string password, DateTime dateEnrolled) : base(name, password)
+        public Student(string name, string password, DateOnly dateEnrolled) : base(name, password)
         {
             DateEnrolled = dateEnrolled;
         }
@@ -24,6 +25,12 @@ namespace ImmutablePeople
         public override Student TPersonCopy(string copyName, string copyPassword)
         {
             return new Student(copyName, copyPassword, DateEnrolled);
+        }
+
+
+        public Student WithDateEnrolled(DateOnly newDate)
+        {
+            return new Student(Name, Password, newDate);
         }
     }
 
@@ -48,5 +55,7 @@ namespace ImmutablePeople
         {
             return new Teacher(copyName, copyPassword, CoursesHeld);
         }
+
+        
     }
 }
