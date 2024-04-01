@@ -9,6 +9,12 @@ namespace ImmutablePeople
         public abstract string Name { get; }
         public abstract string Password { get; }
 
+        abstract public Person TPersonCopy(string copyName = "", string copyPassword = "");
+
+        public Person WithPassword(string newPassword) => TPersonCopy(Name, newPassword);
+
+        public Person WithName(string newName) => TPersonCopy(newName, Password);
+
     }
 
 
@@ -38,11 +44,11 @@ namespace ImmutablePeople
         ///*
         //copy of the Person which will have a new value of Property
         //need copy due to immutability
-        abstract public TPerson TPersonCopy(string copyName, string copyPassword);
+        public abstract override TPerson TPersonCopy(string copyName, string copyPassword);
 
-        public TPerson WithName(string newName) => TPersonCopy(newName, Password);
+        public new TPerson WithName(string newName) => TPersonCopy(newName, Password);
 
-        public TPerson WithPassword(string newPassword) => TPersonCopy(Name, newPassword);
+        public new TPerson WithPassword(string newPassword) => TPersonCopy(Name, newPassword);
         //*/
     }
 }
