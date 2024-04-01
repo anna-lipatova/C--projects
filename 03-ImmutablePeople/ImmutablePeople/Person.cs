@@ -8,6 +8,4 @@ namespace ImmutablePeople
     {
         public string Name { get; }
         public string Password { get; }
-
-    }
 }
