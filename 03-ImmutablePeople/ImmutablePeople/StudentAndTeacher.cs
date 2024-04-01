@@ -56,6 +56,9 @@ namespace ImmutablePeople
             return new Teacher(copyName, copyPassword, CoursesHeld);
         }
 
-        
+        public Teacher WithCoursesHeld(int coursesHeld)
+        {
+            return new Teacher(Name, Password, coursesHeld);
+        }
     }
 }
