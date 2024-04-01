@@ -16,8 +16,14 @@ namespace ImmutablePeople
             DateEnrolled = dateEnrolled;
         }
 
+        //for .Default
         public Student() : this(string.Empty, string.Empty, default)
         {
+        }
+
+        public override Student TPersonCopy(string copyName, string copyPassword)
+        {
+            return new Student(copyName, copyPassword, DateEnrolled);
         }
     }
 
@@ -28,6 +34,7 @@ namespace ImmutablePeople
     {
         public int CoursesHeld { get; init; }
 
+        //for .Default
         public Teacher() : this(string.Empty, string.Empty, 0)
         {
         }
@@ -35,6 +42,11 @@ namespace ImmutablePeople
         public Teacher(string name, string password, int coursesHeld) : base(name, password)
         {
             CoursesHeld = coursesHeld;
+        }
+
+        public override Teacher TPersonCopy(string copyName, string copyPassword)
+        {
+            return new Teacher(copyName, copyPassword, CoursesHeld);
         }
     }
 }
