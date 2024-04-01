@@ -27,7 +27,6 @@ namespace ImmutablePeople
             return new Student(copyName, copyPassword, DateEnrolled);
         }
 
-
         public Student WithDateEnrolled(DateOnly newDate)
         {
             return new Student(Name, Password, newDate);
