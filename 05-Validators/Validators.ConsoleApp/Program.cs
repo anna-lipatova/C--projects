@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-interface IValidator<in T>
+﻿interface IValidator<in T>
 {
     IEnumerable<ValidationError> Validate(T value);
 }
@@ -20,9 +15,24 @@ class NonBlankStringValidator : IValidator<string>
 	}
 }
 
-class RangeValidator
+class RangeValidator<T> : IValidator<T> where T : IComparable<T>
 {
+	public T Minimum { get; init; }
+	public T Maximum { get; init; }
 
+	public IEnumerable<ValidationError> Validate(T value)
+	{
+		if (value.CompareTo(Minimum) < 0)
+		{
+			return new[] { new ValidationError($"\"{value} is less than minimum {Minimum}.\"") };
+		}
+		else if (value.CompareTo(Maximum) > 0)
+		{
+			return new[] { new ValidationError($"\"{value} is greater than maximum {Maximum}.\"") };
+        }
+
+		return Array.Empty<ValidationError>();
+	}
 }
 
 class StringLengthValidator : IValidator<string>
@@ -127,11 +137,11 @@ class Program {
 		nonBlankStringValidator.Validate("   ").Print();
 		nonBlankStringValidator.Validate("hello").Print();
 
-		var rangeValidator = new RangeValidator<int> { Min = 1, Max = 6 };
+		var rangeValidator = new RangeValidator<int> { Minimum = 1, Maximum = 6 };
 		rangeValidator.Validate(7).Print();
 		rangeValidator.Validate(1).Print();
 
-		var stringLengthValidator = new StringLengthValidator(new RangeValidator<int> { Min = 5, Max = 6 });
+		var stringLengthValidator = new StringLengthValidator(new RangeValidator<int> { Minimum = 5, Maximum = 6 });
 		stringLengthValidator.Validate("Jack").Print();
 		stringLengthValidator.Validate("hello-world").Print();
 		stringLengthValidator.Validate("hello").Print();
