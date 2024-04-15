@@ -2,6 +2,27 @@
 {
 	IEnumerable<ValidationError> Validate(T value);
 }
+
+class NonBlankStringValidatorValidator : IValidator<string>
+{
+
+}
+
+class RangeValidatorValidator
+{
+
+}
+
+class StringLengthValidatorValidator : IValidator<string>
+{
+
+}
+
+class NotNullValidatorValidator
+{
+
+}
+
 /* TODO: any modifiers */ class ValidationError 
 {
 	public string Reason { get; init; }
