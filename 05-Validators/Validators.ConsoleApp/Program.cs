@@ -1,5 +1,9 @@
-﻿
-/* TODO: any modifiers */ class ValidationError {
+﻿interface IValidator<in T>
+{
+	IEnumerable<ValidationError> Validate(T value);
+}
+/* TODO: any modifiers */ class ValidationError 
+{
 	public string Reason { get; init; }
 
 	public ValidationError(string reason) {
