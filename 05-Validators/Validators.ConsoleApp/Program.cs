@@ -1,11 +1,22 @@
-﻿interface IValidator<in T>
+﻿using System;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+interface IValidator<in T>
 {
-	IEnumerable<ValidationError> Validate(T value);
+    IEnumerable<ValidationError> Validate(T value);
 }
 
 class NonBlankStringValidatorValidator : IValidator<string>
 {
-
+	public IEnumerable<ValidationError> Validate(string value)
+	{
+		if (string.IsNullOrWhiteSpace(value))
+		{
+			return new ValidationError($"\"{value} is empty or just whitespaces.\"");
+		}
+		return Array.Empty<ValidationError>();
+	}
 }
 
 class RangeValidatorValidator
