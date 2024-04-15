@@ -234,13 +234,13 @@ class Program {
 		ValidateAll<SuperOrder>(orders, orderValidator);
 	}
 
-	static void ValidateSuperOrders(IEnumerable<SuperOrder> orders, /* TODO: Validator for SuperOrder */ validator) {
+	static void ValidateSuperOrders(IEnumerable<SuperOrder> orders, /* TODO: Validator for SuperOrder */ IValidator<SuperOrder> validator) {
 		foreach (var o in orders) {
 			validator.Validate(o).Print();
 		}
 	}
 
-	static void ValidateAll<T>(IEnumerable<T> orders, /* TODO: Validator for T */ validator) {
+	static void ValidateAll<T>(IEnumerable<T> orders, /* TODO: Validator for T */ IValidator<T> validator) {
 		foreach (var o in orders) {
 			validator.Validate(o).Print();
 		}
