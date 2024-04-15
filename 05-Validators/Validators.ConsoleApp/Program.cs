@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 interface IValidator<in T>
 {
     IEnumerable<ValidationError> Validate(T value);
@@ -29,9 +30,17 @@ class StringLengthValidatorValidator : IValidator<string>
 
 }
 
-class NotNullValidatorValidator
+class NotNullValidatorValidator: IValidator<object?>
 {
+	public IEnumerable<ValidationError> Validate(object? value)
+	{
+		if (value is null)
+		{
+			return new[] { new ValidationError($"\"{value}\" is null.") };
+		}
 
+		return Array.Empty<ValidationError>();
+	}
 }
 
 /* TODO: any modifiers */ class ValidationError 
