@@ -8,7 +8,7 @@ interface IValidator<in T>
     IEnumerable<ValidationError> Validate(T value);
 }
 
-class NonBlankStringValidatorValidator : IValidator<string>
+class NonBlankStringValidator : IValidator<string>
 {
 	public IEnumerable<ValidationError> Validate(string value)
 	{
@@ -20,17 +20,48 @@ class NonBlankStringValidatorValidator : IValidator<string>
 	}
 }
 
-class RangeValidatorValidator
+class RangeValidator
 {
 
 }
 
-class StringLengthValidatorValidator : IValidator<string>
+class StringLengthValidator : IValidator<string>
 {
+	public RangeValidator<int> LengthValidator { get; init; }
 
+	public StringLengthValidator(RangeValidator<int> lengthValidator)
+	{
+		LengthValidator	= lengthValidator;
+	}
+
+	public IEnumerable<ValidationError> Validate(string value)
+	{
+		var errors = LengthValidator.Validate(value.Length);
+
+		List<ValidationError>? validationErrors = null;
+
+		foreach(var error in errors)
+		{
+			if (validationErrors is null)
+			{
+				validationErrors = new List<ValidationError>();
+			}
+
+			validationErrors.Add(new ValidationError($"\"{value}\" length {error.Reason}"));
+		}
+
+		if (validationErrors is null)
+		{
+			return Array.Empty<ValidationError>();
+		}
+		else
+		{
+			return validationErrors;
+		}
+	}
 }
 
-class NotNullValidatorValidator: IValidator<object?>
+class NotNullValidator: IValidator<object?>
 {
 	public IEnumerable<ValidationError> Validate(object? value)
 	{
