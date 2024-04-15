@@ -9,8 +9,8 @@ class NonBlankStringValidator : IValidator<string>
 	{
 		if (string.IsNullOrWhiteSpace(value))
 		{
-			return new ValidationError($"\"{value} is empty or just whitespaces.\"");
-		}
+            return new[] { new ValidationError($"\"{value}\" is empty or just whitespaces.") };
+        }
 		return Array.Empty<ValidationError>();
 	}
 }
@@ -24,11 +24,11 @@ class RangeValidator<T> : IValidator<T> where T : IComparable<T>
 	{
 		if (value.CompareTo(Min) < 0)
 		{
-			return new[] { new ValidationError($"\"{value} is less than minimum {Min}.\"") };
+			return new[] { new ValidationError($"\"{value}\" is less than minimum {Min}.") };
 		}
 		else if (value.CompareTo(Max) > 0)
 		{
-			return new[] { new ValidationError($"\"{value} is greater than maximum {Max}.\"") };
+			return new[] { new ValidationError($"\"{value}\" is greater than maximum {Max}.") };
         }
 
 		return Array.Empty<ValidationError>();
@@ -243,6 +243,28 @@ class Program {
 	static void ValidateAll<T>(IEnumerable<T> orders, /* TODO: Validator for T */ IValidator<T> validator) {
 		foreach (var o in orders) {
 			validator.Validate(o).Print();
+		}
+	}
+}
+
+static class ValidationErrorExtensions
+{
+	private static readonly string ValidationSuccessMsg = "  >>> Validation successful >>>";
+    private static readonly string ValidationFailMsg = "  >>> Validation failed >>>";
+    
+    public static void Print (this IEnumerable<ValidationError> validatorErrors)
+	{
+		if (validatorErrors.Any())
+		{
+			Console.WriteLine(ValidationFailMsg);
+			foreach (var err in validatorErrors)
+			{
+				Console.WriteLine("    > " + err.Reason);
+			}
+		}
+		else
+		{
+			Console.WriteLine(ValidationSuccessMsg);
 		}
 	}
 }
