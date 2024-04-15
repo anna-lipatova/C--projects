@@ -17,18 +17,18 @@ class NonBlankStringValidator : IValidator<string>
 
 class RangeValidator<T> : IValidator<T> where T : IComparable<T>
 {
-	public T Minimum { get; init; }
-	public T Maximum { get; init; }
+	public T Min { get; init; }
+	public T Max { get; init; }
 
 	public IEnumerable<ValidationError> Validate(T value)
 	{
-		if (value.CompareTo(Minimum) < 0)
+		if (value.CompareTo(Min) < 0)
 		{
-			return new[] { new ValidationError($"\"{value} is less than minimum {Minimum}.\"") };
+			return new[] { new ValidationError($"\"{value} is less than minimum {Min}.\"") };
 		}
-		else if (value.CompareTo(Maximum) > 0)
+		else if (value.CompareTo(Max) > 0)
 		{
-			return new[] { new ValidationError($"\"{value} is greater than maximum {Maximum}.\"") };
+			return new[] { new ValidationError($"\"{value} is greater than maximum {Max}.\"") };
         }
 
 		return Array.Empty<ValidationError>();
@@ -108,6 +108,23 @@ record class SuperOrder : Order { }
 
 //
 
+abstract class Validator<T> : IValidator<T>
+{
+	public abstract IEnumerable<ValidationError> Validate(T value);
+
+	//protected for children
+	protected IEnumerable<ValidationError> Validate<V>(V value, params IValidator<V>[] validators)
+	{
+		var all = new List<ValidationError>();
+		foreach (var validator in validators)
+		{
+			all.AddRange(validator.Validate(value));
+		}
+
+		return all;
+	}
+}
+
 class OrderValidator : Validator<Order> {
 	// TODO:
 	// ... Validate(Order value) ... {
@@ -118,15 +135,25 @@ class OrderValidator : Validator<Order> {
 	//	allErrors.AddRange(Validate(value.Comment, new NotNullValidator()));
 	//	return allErrors;
 	// }
+
+	public override IEnumerable<ValidationError> Validate(Order value)
+	{
+		var allErrors = new List<ValidationError>();
+		allErrors.AddRange(Validate(value.Amount, new RangeValidator<int> { Min = 1, Max = 10 }));
+		allErrors.AddRange(Validate(value.Id, new NonBlankStringValidator(), new StringLengthValidator(new RangeValidator<int> { Min = 1, Max = 8 })));
+		allErrors.AddRange(Validate(value.TotalPrice, new RangeValidator<decimal> { Min = 0.01M, Max = 999.99M }));
+		allErrors.AddRange(Validate(value.Comment, new NotNullValidator()));
+		return allErrors;
+	}
 }
 
 class AdvancedOrderValidator : Validator<Order> {
-	// TODO:
-	// ... Validate(Order value) ... {
-	//	  Similar syntax as for OrderValidator, but more compact:
-	//	  + without need to specify inferable types <int>, <decimal> ...
-	//	  + without need for new ...
-	// }
+    // TODO:
+    // ... Validate(Order value) ... {
+    //	  Similar syntax as for OrderValidator, but more compact:
+    //	  + without need to specify inferable types <int>, <decimal> ...
+    //	  + without need for new ...
+    // }
 }
 
 class Program {
@@ -137,11 +164,11 @@ class Program {
 		nonBlankStringValidator.Validate("   ").Print();
 		nonBlankStringValidator.Validate("hello").Print();
 
-		var rangeValidator = new RangeValidator<int> { Minimum = 1, Maximum = 6 };
+		var rangeValidator = new RangeValidator<int> { Min = 1, Max = 6 };
 		rangeValidator.Validate(7).Print();
 		rangeValidator.Validate(1).Print();
 
-		var stringLengthValidator = new StringLengthValidator(new RangeValidator<int> { Minimum = 5, Maximum = 6 });
+		var stringLengthValidator = new StringLengthValidator(new RangeValidator<int> { Min = 5, Max = 6 });
 		stringLengthValidator.Validate("Jack").Print();
 		stringLengthValidator.Validate("hello-world").Print();
 		stringLengthValidator.Validate("hello").Print();
