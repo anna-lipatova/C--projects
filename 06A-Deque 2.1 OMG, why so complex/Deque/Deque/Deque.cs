@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Deque
 {
-    public sealed class Deque<T> : IList, IList<T>
+    public sealed class Deque<T> : IList, IList<T>, IReadOnlyList<T>
     {
         private const int DefaultCapacity = 4;
 
@@ -93,7 +93,7 @@ namespace Deque
 
         public void Clear()
         {
-            _items = new T[4];
+            _items = new T[DefaultCapacity];
             _count = 0;
         }
 
@@ -143,7 +143,7 @@ namespace Deque
             if (index < 0 || index >= _count)
                 throw new ArgumentOutOfRangeException(nameof(index), "Index must be within the bounds of the Deque.");
 
-            for (int i = index; i < Count - 1; i++)
+            if (_count > 1)
             {
                 Array.Copy(_items, index + 1, _items, index, _count - index - 1);
             }
@@ -181,15 +181,182 @@ namespace Deque
 
         private void IncreaseCapacity()
         {
-            T[] newArray = new T[_items.Length * 2];
-            Array.Copy(_items, newArray, _count);
-            _items = newArray;
+            try
+            {
+                T[] newArray = new T[_items.Length * 2];
+                Array.Copy(_items, newArray, _count);
+                _items = newArray;
+            }
+            catch (OverflowException)
+            {
+                throw new OverflowException();
+            }
         }
 
-        public IEnumerator GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
-            
+            return new Enumerator(_items, _count);
         }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        private class Enumerator: IEnumerator<T>, IEnumerator
+        {
+            private readonly T[] _items;
+            private int _index;
+            private int _count;
+            private T _current;
+
+            public Enumerator(T[] items, int count)
+            {
+                _items = items;
+                _index = -1;
+                _count = count;
+                _current = default(T);
+            }
+
+            public T Current => _current; //{ get; private set; }
+
+            object IEnumerator.Current => Current;
+
+            public bool MoveNext()
+            {
+                if (_count == 0 || _index + 1 >= _count)
+                    return false;
+
+                _index++;
+                _current = _items[_index];
+                return true;
+            }
+
+            public void Reset()
+            {
+                _index = -1;
+                _current = default(T);
+            }
+
+            public void Dispose()
+            {
+            }
+
+        }
+
+
+        public class ReverseView: IList<T>, IReadOnlyList<T>
+        {
+            private Deque<T> _deque;
+
+            public ReverseView(Deque<T> deque)
+            {
+                _deque = deque;
+            }
+
+            public T this[int index]
+            {
+                get => _deque[_deque.Count - 1 - index];
+                set => _deque[_deque.Count - 1 - index] = value;
+            }
+
+            public int Count => _deque.Count;
+
+            public bool IsReadOnly => false;
+
+            public void Add(T item)
+            {
+                _deque.Insert(0, item);
+            }
+
+            public void Clear()
+            {
+                _deque.Clear();
+            }
+
+            public bool Contains(T item)
+            {
+                return _deque.Contains(item);
+            }
+
+            public void CopyTo(T[] array, int arrayIndex)
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    array[arrayIndex + i] = this[i];
+                }
+            }
+
+            public int IndexOf(T item)
+            {
+                for (int i = 0; i < _deque.Count; i++)
+                {
+                    if (Equals(_deque[_deque.Count - 1 - i], item))
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
+            public void Insert(int index, T item) => _deque.Insert(_deque.Count - index, item);
+
+            public bool Remove(T item)
+            {
+                int index = IndexOf(item);
+                if (index != -1)
+                {
+                    _deque.RemoveAt(_deque.Count - 1 - index);
+                    return true;
+                }
+                return false;
+            }
+
+            public void RemoveAt(int index) => _deque.RemoveAt(_deque.Count - 1 - index);
+
+            public IEnumerator<T> GetEnumerator()
+            {
+                return new ReverseViewEnumerator(this._deque);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            private class ReverseViewEnumerator : IEnumerator<T>
+            {
+                private readonly Deque<T> _deque;
+                private int _position;
+
+                public ReverseViewEnumerator(Deque<T> deque)
+                {
+                    _deque = deque;
+                    _position = deque.Count;
+                }
+
+                public T Current => _deque[_position];
+
+                object IEnumerator.Current => Current;
+
+                public bool MoveNext()
+                {
+                    _position--;
+                    return _position >= 0;
+                }
+
+                public void Reset()
+                {
+                    _position = _deque.Count; 
+                }
+
+                public void Dispose()
+                {
+                }
+            }
+
+        }
+
 
     }
 
