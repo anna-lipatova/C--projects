@@ -327,7 +327,7 @@ namespace Deque.IntegrationTests.UglyReCodEx {
 
 			Console.SetOut(originalConsoleOut);
 
-			var expectedOutput = File.ReadAllText(Path.Combine("ExpectedTestOutputs", testId + ".out"));
+			var expectedOutput = File.ReadAllText(Path.Combine("ExpectedTestOutputs", testId + ".out")).Replace("\r\n", "\n");
 			var actualOutput = outputWriter.ToString();
 
 			Assert.Equal(expectedOutput, actualOutput);

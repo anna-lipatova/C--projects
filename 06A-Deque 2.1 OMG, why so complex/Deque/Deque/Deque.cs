@@ -11,11 +11,16 @@ namespace Deque
         private const int DefaultCapacity = 4;
 
         private T[] _items = new T[DefaultCapacity];
+        private int _head;
+        private int _tail;
         private int _count;
+        private int _version;
 
         public Deque()
         {
             _count = 0;
+            _head = -1;
+            _tail = -1;
         }
 
         object? IList.this[int index]
@@ -45,7 +50,7 @@ namespace Deque
                     throw new IndexOutOfRangeException();
                 return (T)_items[index];
             }
-            
+
             set
             {
                 if (index > _count)
@@ -66,11 +71,32 @@ namespace Deque
 
         object ICollection.SyncRoot => this;
 
-        public void Add(T value)
+        public bool isFull()
         {
-            if (_count == _items.Length)
+            if (_head == 0 && _tail == _count - 1) return true;
+            if (_head == _tail + 1) return true;
+            return false;
+        }
+
+        public bool isEmpty()
+        {
+            if (_head == -1) return true;
+            return false;
+        }
+
+        public void Add(T item)
+        {
+            if (isFull())
                 IncreaseCapacity();
-            _items[_count++] = value;
+
+            if(_head == -1)
+            {
+                _head = 0;
+                _tail = 0;
+                _items[_count] = item;
+            }
+            _tail = (_tail + 1) % _count;
+            _items[_count++] = item;
         }
 
         //returns index of the added element (is the last one)
@@ -81,7 +107,7 @@ namespace Deque
 
             try
             {
-                Add((T)value!);
+                Add((T)value);
             }
             catch (InvalidCastException)
             {
@@ -203,7 +229,7 @@ namespace Deque
             return GetEnumerator();
         }
 
-        private class Enumerator: IEnumerator<T>, IEnumerator
+        private class Enumerator : IEnumerator<T>, IEnumerator
         {
             private readonly T[] _items;
             private int _index;
@@ -245,7 +271,7 @@ namespace Deque
         }
 
 
-        public class ReverseView: IList<T>, IReadOnlyList<T>
+        public class ReverseView : IList<T>, IReadOnlyList<T>
         {
             private Deque<T> _deque;
 
@@ -347,7 +373,7 @@ namespace Deque
 
                 public void Reset()
                 {
-                    _position = _deque.Count; 
+                    _position = _deque.Count;
                 }
 
                 public void Dispose()
