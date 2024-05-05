@@ -16,6 +16,8 @@ var json = httpClient.GetStringAsync(address + "/services/PostCode/getDataAsJson
 Console.WriteLine(json);
 Console.WriteLine();
 
+
+//.Deserialize<IReadOnlyList<T>> kvuli interfacu muveme koukat na json jako na kolekce
 var items = JsonSerializer.Deserialize<IReadOnlyList<PostCodeItem>>(json);
 Console.WriteLine("Item 0:");
 Console.WriteLine(items![0]);
