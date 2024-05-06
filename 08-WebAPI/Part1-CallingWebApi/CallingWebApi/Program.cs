@@ -12,7 +12,8 @@ const string DefaultAddress = "https://api.coinbase.com";
 
 Console.Write($"Enter web API address ({DefaultAddress} is default): ");
 string? address = Console.ReadLine();
-if (string.IsNullOrEmpty(address)) {
+if (string.IsNullOrEmpty(address))
+{
     address = DefaultAddress;
 }
 
@@ -20,11 +21,11 @@ if (string.IsNullOrEmpty(address)) {
 // TODO: Add example using Coinbase API via Refit to fecht and print all exchange rates for:
 //		 EUR
 //       CZK
-static void PrintCoinBaseItems(IEnumerable<CoinBaseItem> root)
+static void PrintCoinBaseItems(CoinBaseResponseRoot root)
 {
     Console.WriteLine();
-    Console.WriteLine("+++ Fetching and printing all currencies: +++" );
-    foreach (var item in root)
+    Console.WriteLine("+++ Fetching and printing all currencies: +++");
+    foreach (var item in root.Data)
     {
         Console.WriteLine(item);
     }
@@ -46,7 +47,7 @@ static void PrintCoinBaseCurrencyItems(CurrencyRates data)
 var coinBaseApi = RestService.For<ICoinBaseWebApi>(address);
 
 var coinResponse = coinBaseApi.GetCoinBaseCurrenciesAsync().Result;
-PrintCoinBaseItems(coinResponse.Data);
+PrintCoinBaseItems(coinResponse);
 
 var coinCurrencyResponse = coinBaseApi.GetCoinBaseExchangeRatesByCurrencyAsync("EUR").Result;
 PrintCoinBaseCurrencyItems(coinCurrencyResponse.Data);
@@ -57,7 +58,7 @@ PrintCoinBaseCurrencyItems(coinCurrencyResponse.Data);
 // TODO: Add type(s) for Coinbase entities
 public class CoinBaseResponseRoot
 {
-    public required List<CoinBaseItem> Data { get; set; }
+    public List<CoinBaseItem> Data { get; set; }
 }
 
 //without [JsonPropertyName("min_size")], must be in class
@@ -81,7 +82,7 @@ public record CoinBaseItem(string id, string name, string min_size);
 
 public class CoinBaseCurrencyResponse
 {
-    public CurrencyRates Data {  get; set; }
+    public CurrencyRates Data { get; set; }
 }
 
 public class CurrencyRates
