@@ -25,7 +25,7 @@ static void PrintCoinBaseItems(CoinBaseResponseRoot root)
 {
     Console.WriteLine();
     Console.WriteLine("+++ Fetching and printing all currencies: +++");
-    foreach (var item in root.Data)
+    foreach (var item in root.data)
     {
         Console.WriteLine(item);
     }
@@ -50,15 +50,15 @@ var coinResponse = coinBaseApi.GetCoinBaseCurrenciesAsync().Result;
 PrintCoinBaseItems(coinResponse);
 
 var coinCurrencyResponse = coinBaseApi.GetCoinBaseExchangeRatesByCurrencyAsync("EUR").Result;
-PrintCoinBaseCurrencyItems(coinCurrencyResponse.Data);
+PrintCoinBaseCurrencyItems(coinCurrencyResponse.data);
 
 coinCurrencyResponse = coinBaseApi.GetCoinBaseExchangeRatesByCurrencyAsync("CZK").Result;
-PrintCoinBaseCurrencyItems(coinCurrencyResponse.Data);
+PrintCoinBaseCurrencyItems(coinCurrencyResponse.data);
 
 // TODO: Add type(s) for Coinbase entities
 public class CoinBaseResponseRoot
 {
-    public List<CoinBaseItem> Data { get; set; }
+    public List<CoinBaseItem> data { get; set; }
 }
 
 //without [JsonPropertyName("min_size")], must be in class
@@ -82,7 +82,7 @@ public record CoinBaseItem(string id, string name, string min_size);
 
 public class CoinBaseCurrencyResponse
 {
-    public CurrencyRates Data { get; set; }
+    public CurrencyRates data { get; set; }
 }
 
 public class CurrencyRates
