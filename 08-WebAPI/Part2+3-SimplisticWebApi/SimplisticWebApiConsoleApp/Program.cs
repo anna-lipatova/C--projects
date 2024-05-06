@@ -1,4 +1,7 @@
-﻿// IMPORTANT NOTE: You should NOT change anything in Program class
+﻿using System;
+using System.Linq;
+using System.Reflection;
+
 class Program {
     static RequestProcessor requestProcessor = new RequestProcessor();
 
@@ -26,10 +29,26 @@ class RequestProcessor {
     private RouteMap _routes = new RouteMap();
 
     public void RegisterAllRoutes() {
-		// TODO: Find all classes implementing ISimplisticRoutesHandler in the calling assembly
-		// TODO: Create instance of each such class using parameter-less constructor
-		// TODO: Call RegisterRoutes method on each such instance
-	}
+        // TODO: Find all classes implementing ISimplisticRoutesHandler in the calling assembly
+        var currentAssembly = Assembly.GetExecutingAssembly();
+
+        var typesImplementingInterface = currentAssembly.
+            GetTypes().
+            Where(type => typeof(ISimplisticRoutesHandler)
+                                    .IsAssignableFrom(type) 
+                                    && !type.IsInterface 
+                                    && !type.IsAbstract); 
+
+        // TODO: Create instance of each such class using parameter-less constructor
+        // TODO: Call RegisterRoutes method on each such instance
+        foreach(var type in typesImplementingInterface)
+        {
+            if (Activator.CreateInstance(type) is ISimplisticRoutesHandler handlerI)
+            {
+                handlerI.RegisterRoutes(_routes);
+            }
+        }
+    }
 
 	public string HandleRequest(string path, string query) {
         Console.WriteLine($"+++ Thread #{Thread.CurrentThread.ManagedThreadId} processing request:");
