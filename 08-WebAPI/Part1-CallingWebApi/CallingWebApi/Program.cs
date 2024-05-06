@@ -16,52 +16,14 @@ if (string.IsNullOrEmpty(address)) {
     address = DefaultAddress;
 }
 
-//Console.WriteLine("+++ via HttpClient & JsonSerializer:");
-
-//var httpClient = new HttpClient();
-//var json = httpClient.GetStringAsync(address + "/services/PostCode/getDataAsJson?cityOrPart=Sokolov&nameStreet=Karla+Hynka+Machy").Result;
-//Console.WriteLine(json);
-//Console.WriteLine();
-
-
-////.Deserialize<IReadOnlyList<T>> kvuli interfacu muzeme koukat na json jako na kolekce
-//var items = JsonSerializer.Deserialize<IReadOnlyList<PostCodeItem>>(json);
-//Console.WriteLine("Item 0:");
-//Console.WriteLine(items![0]);
-//Console.WriteLine();
-
-//var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-//items = JsonSerializer.Deserialize<IReadOnlyList<PostCodeItem>>(json, options);
-//Console.WriteLine("Item 0:");
-//Console.WriteLine(items![0]);
-//Console.WriteLine();
-
-Console.WriteLine("+++ via Refit:");
-
-//var postApi = RestService.For<ICeskaPostaWebApi>(address);
-
-//items = postApi.GetPostCodesByCityAndStreetAsync("Praha", "Patkova").Result;
-//PrintPostCodeItems(items);
-//items = postApi.GetPostCodesByCityAndStreetAsync("Sokolov", "Karla Hynka Machy").Result;
-//PrintPostCodeItems(items);
-//items = postApi.GetPostCodesByCityAndStreetAsync("Praha", "Malostranske namesti").Result;
-//PrintPostCodeItems(items);
-
-//static void PrintPostCodeItems(IEnumerable<PostCodeItem> items)
-//{
-//    foreach (var item in items)
-//    {
-//        Console.WriteLine(item);
-//    }
-//    Console.WriteLine();
-//}
-
 // TODO: Add example using Coinbase API via Refit to fetch and print all currencies
 // TODO: Add example using Coinbase API via Refit to fecht and print all exchange rates for:
 //		 EUR
 //       CZK
 static void PrintCoinBaseItems(IEnumerable<CoinBaseItem> root)
 {
+    Console.WriteLine();
+    Console.WriteLine("+++ Fetching and printing all currencies: +++" );
     foreach (var item in root)
     {
         Console.WriteLine(item);
@@ -71,12 +33,12 @@ static void PrintCoinBaseItems(IEnumerable<CoinBaseItem> root)
 
 static void PrintCoinBaseCurrencyItems(CurrencyRates data)
 {
-    Console.WriteLine(data);
+    Console.WriteLine();
+    Console.WriteLine($"+++ Fetching and printing exchange rates for: {data.Currency} +++");
 
-    Console.WriteLine($"Currency: {data.Currency}");
-    foreach (var item in data.Rates)
+    foreach (var rate in data.Rates)
     {
-        Console.WriteLine(item);
+        Console.WriteLine($"Currency: {rate.Key}, Rate: {rate.Value}");
     }
     Console.WriteLine();
 }
@@ -92,20 +54,10 @@ PrintCoinBaseCurrencyItems(coinCurrencyResponse.Data);
 coinCurrencyResponse = coinBaseApi.GetCoinBaseExchangeRatesByCurrencyAsync("CZK").Result;
 PrintCoinBaseCurrencyItems(coinCurrencyResponse.Data);
 
-//public record PostCodeItem(string NameCity, string NameStreet, string Name, string PostCode, string Number);
-
-//public interface ICeskaPostaWebApi
-//{
-//    [Get("/services/PostCode/getDataAsJson?cityOrPart={city}&nameStreet={street}")]
-//    Task<IReadOnlyList<PostCodeItem>> GetPostCodesByCityAndStreetAsync(string city, string street);
-//}
-
-
-
 // TODO: Add type(s) for Coinbase entities
 public class CoinBaseResponseRoot
 {
-    public List<CoinBaseItem> Data { get; set; }
+    public required List<CoinBaseItem> Data { get; set; }
 }
 
 //without [JsonPropertyName("min_size")], must be in class
@@ -134,8 +86,8 @@ public class CoinBaseCurrencyResponse
 
 public class CurrencyRates
 {
-    public string Currency { get; set; }
-    public IDictionary<string, string> Rates { get; set; }
+    public required string Currency { get; set; }
+    public required IDictionary<string, string> Rates { get; set; }
 }
 
 // TODO: Add interface for Coinbase methods:
