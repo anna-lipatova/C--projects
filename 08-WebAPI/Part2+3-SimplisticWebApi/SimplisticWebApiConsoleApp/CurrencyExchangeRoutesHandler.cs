@@ -31,7 +31,7 @@ public class CurrencyExchangeRoutesHandler : ISimplisticRoutesHandler {
             {
                 Data = new CurrencyRates { Currency = "CZK", Rates = new Dictionary<string, string> { { "EUR", "0.0399077284735664" } } }
             },
-            _ => new CoinBaseCurrencyResponse()
+            _ => new CoinBaseCurrencyResponse { Data = {}}
         } ;
     }
 }

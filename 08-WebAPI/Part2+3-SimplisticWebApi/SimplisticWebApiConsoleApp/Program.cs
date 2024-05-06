@@ -73,7 +73,7 @@ class RequestProcessor {
             for (int i = 0; i < methodParameters.Length; i++)
             {
                 var parameter = methodParameters[i];
-                if (parametersDictionary.TryGetValue(parameter.Name.ToLower(), out var value))
+                if (parametersDictionary.TryGetValue(parameter.Name, out var value))
                 {
                     arguments[i] = Convert.ChangeType(value, parameter.ParameterType);
                 }
