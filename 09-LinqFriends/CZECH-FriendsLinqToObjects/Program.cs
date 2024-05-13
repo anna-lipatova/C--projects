@@ -10,7 +10,8 @@
 
 		var groupA = new Group();
 
-		HighlightedWriteLine("Assignment 1: Vsechny osoby, ktere nepovazuji nikoho za sveho pritele.");
+		HighlightedWriteLine("Assignment 1: Vsechny osoby," +
+			" ktere nepovazuji nikoho za sveho pritele.");
 
         Console.WriteLine("Main: foreach:");
         var peopleWithoutFriends = from p in groupA where p.Friends.Any() == false select p;
@@ -21,9 +22,22 @@
 
 
 		Console.WriteLine();
-		HighlightedWriteLine("Assignment 2: Vsechny osoby setridene vzestupne podle jmena, ktere jsou starsi 15 let, a jejichz jmeno zacina na pismeno D nebo vetsi.");
+		HighlightedWriteLine("Assignment 2: Vsechny osoby setridene " +
+			"vzestupne podle jmena, ktere jsou starsi 15 let, " +
+			"a jejichz jmeno zacina na pismeno D nebo vetsi.");
 
-		Console.WriteLine();
+        Console.WriteLine("Main: foreach:");
+		var peopleAreOlderThen15AndHavingNameFirstLetterAtLeastD = 
+			from p in groupA where p.Age > 15 where p.Name[0] >= 'D' orderby p.Name select p;
+		//complexity is O(N) + O(c) + O(c*logc) where c is c < N
+		
+		foreach (var person in peopleAreOlderThen15AndHavingNameFirstLetterAtLeastD)
+		{
+            Console.WriteLine($"Main: got {person}");
+        }
+
+
+        Console.WriteLine();
 		HighlightedWriteLine("Assignment 3: Vsechny osoby, ktere jsou ve skupine nejstarsi, a jejichz jmeno zacina na pismeno T nebo vetsi.");
 
 		Console.WriteLine();
