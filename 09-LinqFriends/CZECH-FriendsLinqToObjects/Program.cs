@@ -42,7 +42,7 @@
 			"ktere jsou ve skupine nejstarsi, " +
 			"a jejichz jmeno zacina na pismeno T nebo vetsi.");
 
-        Console.WriteLine("Main: foreach:");
+        
         //var theOldestPeopleWithNameFirstLetterAtLeastT = from p in groupA where p.Age == (groupA.Max(p2 => p2.Age)) where p.Name[0] >= 'T' select p;
         //var theOldestPeopleWithNameFirstLetterAtLeastT = from p in groupA let maxAge = groupA.Max(p2 => p2.Age) where p.Age == maxAge where p.Name[0] >= 'T' select p;
         //opakujou se vypisy!!!
@@ -57,7 +57,7 @@
 
         var theOldestAge = groupA.Max(p => p.Age);
 		var theOldestPeopleWithNameFirstLetterAtLeastT = from p in groupA where p.Age == theOldestAge where p.Name[0] >= 'T' select p;
-
+        Console.WriteLine("Main: foreach:");
         foreach (var person in theOldestPeopleWithNameFirstLetterAtLeastT)
         {
             Console.WriteLine($"Main: got {person}");
@@ -69,7 +69,7 @@
 			"ktere jsou starsi nez vsichni jejich pratele.");
 
         var peopleOlderThenAllTheirFriends = from p in groupA where p.Friends.Any(p2 => p2.Age > p.Age) == false select p;
-
+        Console.WriteLine("Main: foreach:");
         foreach (var person in peopleOlderThenAllTheirFriends)
         {
             Console.WriteLine($"Main: got {person}");
@@ -77,9 +77,20 @@
 
 
         Console.WriteLine();
-		HighlightedWriteLine("Assignment 5: Vsechny osoby, ktere nemaji zadne pratele (ktere nikoho nepovazuji za sveho pritele, a zaroven ktere nikdo jiny nepovazuje za sveho pritele).");
+		HighlightedWriteLine("Assignment 5: Vsechny osoby, " +
+			"ktere nemaji zadne pratele " +
+			"(ktere nikoho nepovazuji za sveho pritele," +
+			" a zaroven ktere nikdo jiny nepovazuje za sveho pritele).");
 
-		Console.WriteLine();
+        var theMostUnfriendlyPeople = from p in groupA where p.Friends.Any() == false where (from p2 in groupA where p2.Friends.Contains(p) select p2).Any() == false select p;
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theMostUnfriendlyPeople)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+
+        Console.WriteLine();
 		HighlightedWriteLine("Assignment 6: Vsechny osoby, ktere jsou necimi nejstarsimi prateli (s opakovanim).");
 
 		Console.WriteLine();
