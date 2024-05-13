@@ -65,9 +65,18 @@
 
 
         Console.WriteLine();
-		HighlightedWriteLine("Assignment 4: Vsechny osoby, ktere jsou starsi nez vsichni jejich pratele.");
+		HighlightedWriteLine("Assignment 4: Vsechny osoby, " +
+			"ktere jsou starsi nez vsichni jejich pratele.");
 
-		Console.WriteLine();
+        var peopleOlderThenAllTheirFriends = from p in groupA where p.Friends.Any(p2 => p2.Age > p.Age) == false select p;
+
+        foreach (var person in peopleOlderThenAllTheirFriends)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+
+        Console.WriteLine();
 		HighlightedWriteLine("Assignment 5: Vsechny osoby, ktere nemaji zadne pratele (ktere nikoho nepovazuji za sveho pritele, a zaroven ktere nikdo jiny nepovazuje za sveho pritele).");
 
 		Console.WriteLine();
