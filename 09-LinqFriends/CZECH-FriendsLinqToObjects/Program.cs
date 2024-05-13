@@ -38,9 +38,33 @@
 
 
         Console.WriteLine();
-		HighlightedWriteLine("Assignment 3: Vsechny osoby, ktere jsou ve skupine nejstarsi, a jejichz jmeno zacina na pismeno T nebo vetsi.");
+		HighlightedWriteLine("Assignment 3: Vsechny osoby, " +
+			"ktere jsou ve skupine nejstarsi, " +
+			"a jejichz jmeno zacina na pismeno T nebo vetsi.");
 
-		Console.WriteLine();
+        Console.WriteLine("Main: foreach:");
+        //var theOldestPeopleWithNameFirstLetterAtLeastT = from p in groupA where p.Age == (groupA.Max(p2 => p2.Age)) where p.Name[0] >= 'T' select p;
+        //var theOldestPeopleWithNameFirstLetterAtLeastT = from p in groupA let maxAge = groupA.Max(p2 => p2.Age) where p.Age == maxAge where p.Name[0] >= 'T' select p;
+        //opakujou se vypisy!!!
+        // Main: foreach:
+        //Group is being enumerated.
+        //Group is being enumerated.
+        //All elements of Group have been enumerated.
+        //Group is being enumerated.
+        //All elements of Group have been enumerated.
+        //Group is being enumerated.
+        //and so on
+
+        var theOldestAge = groupA.Max(p => p.Age);
+		var theOldestPeopleWithNameFirstLetterAtLeastT = from p in groupA where p.Age == theOldestAge where p.Name[0] >= 'T' select p;
+
+        foreach (var person in theOldestPeopleWithNameFirstLetterAtLeastT)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+
+        Console.WriteLine();
 		HighlightedWriteLine("Assignment 4: Vsechny osoby, ktere jsou starsi nez vsichni jejich pratele.");
 
 		Console.WriteLine();
