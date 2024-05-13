@@ -160,7 +160,14 @@ Main: got Person(Name = "Frantisek", Age = 15)
         Console.WriteLine();
 		HighlightedWriteLine("Assignment 6B: Vsechny osoby, ktere jsou necimi nejstarsimi prateli (bez opakovani).");
 
-		Console.WriteLine();
+		theOldestFriends = theOldestFriends.Distinct();
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriends)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+        Console.WriteLine();
 		HighlightedWriteLine("Assignment 7: Vsechny osoby, ktere jsou nejstarsimi prateli osoby starsi nez ony samy (s opakovanim).");
 
 		Console.WriteLine();
