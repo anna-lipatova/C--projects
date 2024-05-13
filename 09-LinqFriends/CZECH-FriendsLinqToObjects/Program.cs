@@ -91,9 +91,73 @@
 
 
         Console.WriteLine();
-		HighlightedWriteLine("Assignment 6: Vsechny osoby, ktere jsou necimi nejstarsimi prateli (s opakovanim).");
+		HighlightedWriteLine("Assignment 6: Vsechny osoby, " +
+			"ktere jsou necimi nejstarsimi prateli (s opakovanim).");
 
-		Console.WriteLine();
+		//first way
+        var theOldestFriends = groupA.Where(
+			p => p.Friends.Any()).SelectMany(
+			//3. *
+			p => { 
+				int maxAge = p.Friends.Max(p2 => p2.Age);
+				//1. find max age
+				return p.Friends.Where(p2 => p2.Age == maxAge);
+				//2. return friends with max age
+			}	
+			);
+        //but prints out that bad:
+        /*
+		 Main: foreach:
+*** Group is being enumerated.
+ # Person("Hubert").Friends is being enumerated.
+ # Person("Anna").Friends is being enumerated.
+ # Person("Frantisek").Friends is being enumerated.
+ # Person("Frantisek").Friends is being enumerated.
+ # Person("Frantisek").Friends is being enumerated.
+Main: got Person(Name = "Anna", Age = 22)
+ # Person("Blazena").Friends is being enumerated.
+ # Person("Blazena").Friends is being enumerated.
+ # Person("Blazena").Friends is being enumerated.
+Main: got Person(Name = "Ursula", Age = 22)
+Main: got Person(Name = "Vendula", Age = 22)
+ # Person("Ursula").Friends is being enumerated.
+ # Person("Ursula").Friends is being enumerated.
+ # Person("Ursula").Friends is being enumerated.
+Main: got Person(Name = "Blazena", Age = 18)
+Main: got Person(Name = "Daniela", Age = 18)
+ # Person("Daniela").Friends is being enumerated.
+ # Person("Daniela").Friends is being enumerated.
+ # Person("Daniela").Friends is being enumerated.
+Main: got Person(Name = "Ursula", Age = 22)
+ # Person("Emil").Friends is being enumerated.
+ # Person("Emil").Friends is being enumerated.
+ # Person("Emil").Friends is being enumerated.
+Main: got Person(Name = "Vendula", Age = 22)
+ # Person("Vendula").Friends is being enumerated.
+ # Person("Vendula").Friends is being enumerated.
+ # Person("Vendula").Friends is being enumerated.
+Main: got Person(Name = "Emil", Age = 21)
+ # Person("Cyril").Friends is being enumerated.
+ # Person("Cyril").Friends is being enumerated.
+ # Person("Cyril").Friends is being enumerated.
+Main: got Person(Name = "Daniela", Age = 18)
+ # Person("Gertruda").Friends is being enumerated.
+ # Person("Gertruda").Friends is being enumerated.
+ # Person("Gertruda").Friends is being enumerated.
+Main: got Person(Name = "Frantisek", Age = 15)
+*** All elements of Group have been enumerated.
+		 */
+
+		//second way
+        theOldestFriends = from p in groupA let maxAge = p.Friends.DefaultIfEmpty(new Person { Age = 0, Name = ""}).Max(p2 => p2.Age) from p2 in p.Friends where p2.Age == maxAge select p2;
+
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriends)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+        Console.WriteLine();
 		HighlightedWriteLine("Assignment 6B: Vsechny osoby, ktere jsou necimi nejstarsimi prateli (bez opakovani).");
 
 		Console.WriteLine();
