@@ -12,6 +12,14 @@
 
 		HighlightedWriteLine("Assignment 1: Vsechny osoby, ktere nepovazuji nikoho za sveho pritele.");
 
+        Console.WriteLine("Main: foreach:");
+        var peopleWithoutFriends = from p in groupA where p.Friends.Any() == false select p;
+		foreach (var person in peopleWithoutFriends)
+		{
+            Console.WriteLine($"Main: got {person}");
+        }
+
+
 		Console.WriteLine();
 		HighlightedWriteLine("Assignment 2: Vsechny osoby setridene vzestupne podle jmena, ktere jsou starsi 15 let, a jejichz jmeno zacina na pismeno D nebo vetsi.");
 
