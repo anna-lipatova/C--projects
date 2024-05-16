@@ -158,7 +158,8 @@ Main: got Person(Name = "Frantisek", Age = 15)
         }
 
         Console.WriteLine();
-		HighlightedWriteLine("Assignment 6B: Vsechny osoby, ktere jsou necimi nejstarsimi prateli (bez opakovani).");
+		HighlightedWriteLine("Assignment 6B: Vsechny osoby, " +
+			"ktere jsou necimi nejstarsimi prateli (bez opakovani).");
 
 		theOldestFriends = theOldestFriends.Distinct();
         Console.WriteLine("Main: foreach:");
@@ -168,14 +169,51 @@ Main: got Person(Name = "Frantisek", Age = 15)
         }
 
         Console.WriteLine();
-		HighlightedWriteLine("Assignment 7: Vsechny osoby, ktere jsou nejstarsimi prateli osoby starsi nez ony samy (s opakovanim).");
+		HighlightedWriteLine("Assignment 7: Vsechny osoby, " +
+			"ktere jsou nejstarsimi prateli osoby " +
+			"starsi nez ony samy (s opakovanim).");
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 7B: Vsechny osoby, ktere jsou nejstarsimi prateli osoby starsi nez ony samy (bez opakovani).");
+		var theOldestFriendsOfYoungerPeople = groupA.Where(person =>
+			person.Friends.Any() &&
+			person.Friends.Max(friend => friend.Age) < person.Age
+		).Select(person => person.Friends.OrderByDescending(friend => friend.Age).First()
+		);
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 7C: Vsechny osoby, ktere jsou nejstarsimi prateli osoby starsi nez ony samy (bez opakovani a setridene sestupne podle jmena osoby).");
-	}
+		//alternative way
+		//var theOldestFriendsOfYoungerPeople = (from person in groupA from friend in person.Friends where friend.Age == person.Friends.Max(friend => friend.Age) && friend.Age < person.Age select friend);
+
+		Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriendsOfYoungerPeople)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 7B: Vsechny osoby, " +
+			"ktere jsou nejstarsimi prateli osoby " +
+			"starsi nez ony samy (bez opakovani).");
+
+		theOldestFriendsOfYoungerPeople = theOldestFriendsOfYoungerPeople.Distinct();
+
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriendsOfYoungerPeople)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 7C: Vsechny osoby, " +
+			"ktere jsou nejstarsimi prateli osoby starsi nez ony" +
+			" samy (bez opakovani a setridene sestupne podle jmena osoby).");
+
+		theOldestFriendsOfYoungerPeople = theOldestFriendsOfYoungerPeople.OrderByDescending(p => p.Name);
+
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriendsOfYoungerPeople)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+    }
 
 	public static void HighlightedWriteLine(string s) {
 		ConsoleColor oldColor = Console.ForegroundColor;
