@@ -108,13 +108,56 @@ namespace LinqToMinimalSql {
 			}
 		}
 
-		#region Actual LINQ to Minimal SQL implementation
+        #region Actual LINQ to Minimal SQL implementation
 
-		//
-		// LINQ to Minimal SQL implementation begins here:
-		//
+        //
+        // LINQ to Minimal SQL implementation begins here:
+        //
 
-	}
+
+        public SqlTable<T> Where(Expression<Func<T, bool>> predicate)
+        {
+            var whereClauses = new List<SqlWhereClause>();
+            var visitor = new WhereExpressionVisitor(whereClauses, FieldNameToColumnNameMap);
+            visitor.Visit(predicate);
+            return new SqlTable<T>(columnNames, FilterDataByWhereClauses(data, whereClauses));
+        }
+
+
+        private string[][] FilterDataByWhereClauses(string[][] data, List<SqlWhereClause> whereClauses)
+        {
+            return data.Where(row => whereClauses.All(where => CheckRowSatisfiesWhere(row, where))).ToArray();
+        }
+
+
+        private class WhereExpressionVisitor : ExpressionVisitor
+        {
+            private readonly List<SqlWhereClause> whereClauses;
+            private readonly Dictionary<string, string> fieldNameToColumnNameMap;
+
+            public WhereExpressionVisitor(List<SqlWhereClause> whereClauses, Dictionary<string, string> fieldNameToColumnNameMap)
+            {
+                this.whereClauses = whereClauses;
+                this.fieldNameToColumnNameMap = fieldNameToColumnNameMap;
+            }
+
+			//visits binary tree => expression consists of (MemberExpression) (operand) (string constant Expression)
+			//													Left node		root			Right node
+            protected override Expression VisitBinary(BinaryExpression node)
+            {
+                if (node.Left is MemberExpression member && node.Right is ConstantExpression constant)
+                {
+                    var columnName = fieldNameToColumnNameMap[member.Member.Name];
+                    var value = constant.Value.ToString();
+                    var compareOnEquality = node.NodeType == ExpressionType.Equal;
+                    whereClauses.Add(new SqlWhereClause { ColumnName = columnName, CompareOnEquality = compareOnEquality, Value = value });
+                }
+                return base.VisitBinary(node);
+            }
+
+        }
+
+    }
 
 		#endregion
 
