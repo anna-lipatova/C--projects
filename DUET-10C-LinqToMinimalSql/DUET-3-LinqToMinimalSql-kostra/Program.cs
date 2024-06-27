@@ -114,6 +114,22 @@ namespace LinqToMinimalSql {
         // LINQ to Minimal SQL implementation begins here:
         //
 
+
+        public SqlTable<T> Where(Expression<Func<T, bool>> predicate)
+        {
+            var whereClauses = new List<SqlWhereClause>();
+            var visitor = new WhereExpressionVisitor(whereClauses, FieldNameToColumnNameMap);
+            visitor.Visit(predicate);
+            return new SqlTable<T>(columnNames, FilterDataByWhereClauses(data, whereClauses));
+        }
+
+
+        private string[][] FilterDataByWhereClauses(string[][] data, List<SqlWhereClause> whereClauses)
+        {
+            return data.Where(row => whereClauses.All(where => CheckRowSatisfiesWhere(row, where))).ToArray();
+        }
+
+
         private class WhereExpressionVisitor : ExpressionVisitor
         {
             private readonly List<SqlWhereClause> whereClauses;
