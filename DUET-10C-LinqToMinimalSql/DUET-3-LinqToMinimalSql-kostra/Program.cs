@@ -125,8 +125,19 @@ namespace LinqToMinimalSql {
                 this.fieldNameToColumnNameMap = fieldNameToColumnNameMap;
             }
 
-
-				
+			//visits binary tree => expression consists of (MemberExpression) (operand) (string constant Expression)
+			//													Left node		root			Right node
+            protected override Expression VisitBinary(BinaryExpression node)
+            {
+                if (node.Left is MemberExpression member && node.Right is ConstantExpression constant)
+                {
+                    var columnName = fieldNameToColumnNameMap[member.Member.Name];
+                    var value = constant.Value.ToString();
+                    var compareOnEquality = node.NodeType == ExpressionType.Equal;
+                    whereClauses.Add(new SqlWhereClause { ColumnName = columnName, CompareOnEquality = compareOnEquality, Value = value });
+                }
+                return base.VisitBinary(node);
+            }
 
         }
 
