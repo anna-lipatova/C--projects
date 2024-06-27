@@ -108,13 +108,29 @@ namespace LinqToMinimalSql {
 			}
 		}
 
-		#region Actual LINQ to Minimal SQL implementation
+        #region Actual LINQ to Minimal SQL implementation
 
-		//
-		// LINQ to Minimal SQL implementation begins here:
-		//
+        //
+        // LINQ to Minimal SQL implementation begins here:
+        //
 
-	}
+        private class WhereExpressionVisitor : ExpressionVisitor
+        {
+            private readonly List<SqlWhereClause> whereClauses;
+            private readonly Dictionary<string, string> fieldNameToColumnNameMap;
+
+            public WhereExpressionVisitor(List<SqlWhereClause> whereClauses, Dictionary<string, string> fieldNameToColumnNameMap)
+            {
+                this.whereClauses = whereClauses;
+                this.fieldNameToColumnNameMap = fieldNameToColumnNameMap;
+            }
+
+
+				
+
+        }
+
+    }
 
 		#endregion
 
