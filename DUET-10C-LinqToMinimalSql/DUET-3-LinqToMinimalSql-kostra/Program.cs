@@ -115,18 +115,35 @@ namespace LinqToMinimalSql {
         //
 
 
+
+		
         public SqlTable<T> Where(Expression<Func<T, bool>> predicate)
         {
             var whereClauses = new List<SqlWhereClause>();
             var visitor = new WhereExpressionVisitor(whereClauses, FieldNameToColumnNameMap);
             visitor.Visit(predicate);
-            return new SqlTable<T>(columnNames, FilterDataByWhereClauses(data, whereClauses));
+            //return new SqlTable<T>(columnNames, FilterDataByWhereClauses(data, whereClauses)); //for eager eval
+
+            return new SqlTable<T>(columnNames, FilterDataByWhereClausesLazy(data, whereClauses).ToArray());
         }
 
+        //eager eval
+        //private string[][] FilterDataByWhereClauses(string[][] data, List<SqlWhereClause> whereClauses)
+        //{
+        //    return data.Where(row => whereClauses.All(where => CheckRowSatisfiesWhere(row, where))).ToArray();
+        //}
 
-        private string[][] FilterDataByWhereClauses(string[][] data, List<SqlWhereClause> whereClauses)
+
+        //lazy eval
+        private IEnumerable<string[]> FilterDataByWhereClausesLazy(string[][] data, List<SqlWhereClause> whereClauses)
         {
-            return data.Where(row => whereClauses.All(where => CheckRowSatisfiesWhere(row, where))).ToArray();
+            foreach (var row in data)
+            {
+                if (whereClauses.All(where => CheckRowSatisfiesWhere(row, where)))
+                {
+                    yield return row;
+                }
+            }
         }
 
 
