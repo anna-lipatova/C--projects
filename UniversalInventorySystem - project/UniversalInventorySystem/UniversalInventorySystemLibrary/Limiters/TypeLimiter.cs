@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UniversalInventorySystemLibrary.Container;
 
 namespace UniversalInventorySystemLibrary.Limiters
 {
-    internal class TypeLimiter : IContainerLimiter
+    public class TypeLimiter : IContainerLimiter
     {
+        public bool CanAddItem(IItem item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
