@@ -1,0 +1,69 @@
+Specifikace
+====================
+
+Univerzální knihovna inventáře pro hry
+
+
+Myšlenka vytvoření univerzální knihovny inventáře pro hry je 
+slibná a užitečná, zejména pro vývojáře pracující s různými 
+herními enginy, jako je Unity.
+
+Mezi výhody tohoto řešení patří
+- vestavěné typy kontejnerů, které jsou v oblasti vývoje her 
+nejpopulárnější.
+- atributy pro nastavení lokalizačních klíčů vám umožní pohodlně 
+zobrazit informace o položce
+- poskytnutí základních metod pro práci s inventářem s 
+ponecháním možnosti přidání funkcí specifických pro vytvářenou hru
+- snadné použití a integrace do projektu 
+
+====================
+
+Hlavní funkce
+--------------------
+Projekt zahrnuje všechny potřebné funkce pro práci s inventářem, 
+včetně:
+
+Kontejnery pro položky s omezením:
+
+	Celkový počet položek < N
+	Celková hmotnost položek < N
+	Počet položek určitého typu < N
+
+Serializace a deserializace do JSON
+
+Vyhledávání položek
+
+Filtrování položek
+
+Třídění položek
+
+Správa položek:
+
+	Přidávání/odstraňování položek
+	Přidávání/odstraňování položek podle filtru
+	Získat seznam všech položek
+
+Lokalizace:
+
+	Atributy pro nastavení lokalizačních klíčů pro parametry 
+	položek
+
+Události:
+
+	Události pro změnu seznamu položek
+
+--------------------
+
+Metody budou implementovány pomocí různých přístupů ke zpracování 
+provádění úloh: synchronně, asynchronně a coroutine.
+
+K ukládání konfigurací prvků použijeme ScriptableObject z 
+UnityEngine, což je velmi efektivní způsob organizace a správy dat.
+
+Jak bude knihovna komunikovat s okolním světem? - poskytovat 
+otevřené třídy a metody pro interakci s inventářem. 
+
+Data mohou být vypsána do konzoly.
+
+Pro demonstraci funkčnosti budou napsány testy.
