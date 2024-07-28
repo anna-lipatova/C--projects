@@ -17,12 +17,63 @@ namespace UniversalInventorySystemLibrary.Container
 
         public bool TryAdd(IItem item)
         {
-            return false;
+            if (containerLimiter.CanAddItem(item))
+            {
+                items.Add(item);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public bool TryAddRange(IEnumerable<IItem> newItems)
+        public bool TryAddRange(IEnumerable<IItem> newItems, List<IItem> canAddItems, List<IItem> cannotAddItems, bool allOnly = true)
         {
-            return false;
+            bool canAdd = containerLimiter.CanAddItemArray(newItems, canAddItems, cannotAddItems);
+            if (canAdd)
+            {
+                items.AddRange(newItems);
+                return true;
+            }
+            else
+            {
+                if(allOnly == false)
+                {
+                    items.AddRange(canAddItems);
+                }
+                return false;
+            }
+        }
+
+        public string SerializeToJson()
+        {
+            return JsonConvert.SerializeObject(items);
+        }
+
+        public async Task<string> SerializeToJsonAsync()
+        {
+            return await Task.Run(SerializeToJson);
+        }
+
+        public void DeserializeFromJson(string json)
+        {
+            items = JsonConvert.DeserializeObject<List<IItem>>(json);
+        }
+
+        public async void DeserializeFromJsonAsync(string json)
+        {
+            await Task.Run(() =>  DeserializeFromJson(json));
+        }
+
+        public string SerializeToXML()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeserializeFromXML(string xml)
+        {
+            
         }
     }
 }

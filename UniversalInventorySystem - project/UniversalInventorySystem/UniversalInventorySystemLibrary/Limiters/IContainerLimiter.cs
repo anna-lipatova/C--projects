@@ -10,5 +10,7 @@ namespace UniversalInventorySystemLibrary.Limiters
     public interface IContainerLimiter
     {
         bool CanAddItem(IItem item);
+        bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems);
+
     }
 }
