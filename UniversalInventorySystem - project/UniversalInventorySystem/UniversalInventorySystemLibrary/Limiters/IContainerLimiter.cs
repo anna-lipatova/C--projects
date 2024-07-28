@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UniversalInventorySystemLibrary.Limiters
 {
-    internal class IContainerLimiter
+    public interface IContainerLimiter
     {
     }
 }
