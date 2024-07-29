@@ -13,5 +13,10 @@ namespace UniversalInventorySystemLibrary.Limiters
         {
             throw new NotImplementedException();
         }
+
+        public bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

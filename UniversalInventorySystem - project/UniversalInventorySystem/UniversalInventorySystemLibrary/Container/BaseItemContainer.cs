@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UniversalInventorySystemLibrary.Limiters;
+using System.ComponentModel;
+using UniversalInventorySystemLibrary.Serializer;
 
 namespace UniversalInventorySystemLibrary.Container
 {
@@ -13,6 +15,12 @@ namespace UniversalInventorySystemLibrary.Container
         private List<IItem> items;
         private IContainerLimiter containerLimiter;
         private MonoBehaviour coroutineStarter;
+        private ISerializer serializer;
+
+        public List<IItem> GetItems()
+        {
+            return items;
+        }
 
         public bool TryAdd(IItem item)
         {
@@ -45,34 +53,19 @@ namespace UniversalInventorySystemLibrary.Container
             }
         }
 
-        public string SerializeToJson()
+        public string Serialize() => serializer.Serialize(this);
+
+        public async Task<string> SerializeAsync() => await serializer.SerializeAsync(this);
+
+        public void Deserialize(string value)
         {
-            return JsonConvert.SerializeObject(items);
+            items = serializer.Deserialize(value);
         }
 
-        public async Task<string> SerializeToJsonAsync()
+        public async void DeserializeAsync(string value)
         {
-            return await Task.Run(SerializeToJson);
+            items = await serializer.DeserializeAsync(value);
         }
 
-        public void DeserializeFromJson(string json)
-        {
-            items = JsonConvert.DeserializeObject<List<IItem>>(json);
-        }
-
-        public async void DeserializeFromJsonAsync(string json)
-        {
-            await Task.Run(() =>  DeserializeFromJson(json));
-        }
-
-        public string SerializeToXML()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeserializeFromXML(string xml)
-        {
-            
-        }
     }
 }
