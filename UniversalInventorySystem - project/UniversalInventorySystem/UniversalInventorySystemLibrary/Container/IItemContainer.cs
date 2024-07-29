@@ -9,5 +9,6 @@ namespace UniversalInventorySystemLibrary.Container
 {
     public interface IItemContainer
     {
+        List<IItem> GetItems();
     }
 }
