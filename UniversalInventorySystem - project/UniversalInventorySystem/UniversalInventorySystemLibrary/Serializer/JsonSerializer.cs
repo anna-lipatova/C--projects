@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UniversalInventorySystemLibrary.Container;
+using UniversalInventorySystemLibrary.Items;
 
 namespace UniversalInventorySystemLibrary.Serializer
 {

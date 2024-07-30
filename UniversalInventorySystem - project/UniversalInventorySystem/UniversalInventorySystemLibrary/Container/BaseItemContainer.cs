@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using UniversalInventorySystemLibrary.Items;
 
 namespace UniversalInventorySystemLibrary.Container
 {

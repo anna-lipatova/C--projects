@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 using UniversalInventorySystemLibrary.Container;
+using UniversalInventorySystemLibrary.Items;
 
 namespace UniversalInventorySystemLibrary.Serializer
 {

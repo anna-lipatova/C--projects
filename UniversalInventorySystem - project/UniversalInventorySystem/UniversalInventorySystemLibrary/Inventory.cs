@@ -8,6 +8,7 @@ using UniversalInventorySystemLibrary.Container;
 using UniversalInventorySystemLibrary.Limiters;
 using UniversalInventorySystemLibrary.Serializer;
 using UnityEngine;
+using UniversalInventorySystemLibrary.Items;
 
 namespace UniversalInventorySystemLibrary
 {

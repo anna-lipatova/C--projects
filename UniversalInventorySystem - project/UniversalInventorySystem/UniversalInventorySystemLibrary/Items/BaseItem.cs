@@ -5,14 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace UniversalInventorySystemLibrary.Container
+namespace UniversalInventorySystemLibrary.Items
 {
-    public interface IItem
-    {
-    }
-
     public class BaseItem: ScriptableObject, IItem
     {
-
     }
 }

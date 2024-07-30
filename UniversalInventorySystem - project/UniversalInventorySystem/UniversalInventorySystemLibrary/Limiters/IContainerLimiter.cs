@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UniversalInventorySystemLibrary.Container;
+using UniversalInventorySystemLibrary.Items;
 
 namespace UniversalInventorySystemLibrary.Limiters
 {
