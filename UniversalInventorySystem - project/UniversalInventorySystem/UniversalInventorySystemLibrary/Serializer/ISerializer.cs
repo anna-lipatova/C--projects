@@ -9,9 +9,9 @@ namespace UniversalInventorySystemLibrary.Serializer
 {
     public interface ISerializer
     {
-        string Serialize(IItemContainer container);
-        Task<string> SerializeAsync(IItemContainer container);
-        List<IItem> Deserialize(string value);
-        Task<List<IItem>> DeserializeAsync(string value);
+        string Serialize(Inventory container);
+        Task<string> SerializeAsync(Inventory container);
+        Inventory Deserialize(string value);
+        Task<Inventory> DeserializeAsync(string value);
     }
 }
