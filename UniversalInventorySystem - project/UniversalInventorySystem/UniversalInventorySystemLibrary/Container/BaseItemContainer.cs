@@ -1,71 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UniversalInventorySystemLibrary.Limiters;
-using System.ComponentModel;
-using UniversalInventorySystemLibrary.Serializer;
+using System.Collections;
 
 namespace UniversalInventorySystemLibrary.Container
 {
+
+    public interface IItemContainer : ICollection<IItem>
+    {
+        void AddRange(IEnumerable<IItem> newItems);
+        List<IItem> GetItems();
+
+    }
+
     public class BaseItemContainer: IItemContainer
     {
         private List<IItem> items;
-        private IContainerLimiter containerLimiter;
-        private MonoBehaviour coroutineStarter;
-        private ISerializer serializer;
 
+        public BaseItemContainer()
+        {
+           items = new List<IItem>();
+        }
+
+        //prop Count
+        public int Count => items.Count;
+
+        //prop IsReadOnly
+        public bool IsReadOnly => false;
+
+        //method add
+        public void Add(IItem item) 
+        {
+            items.Add(item);
+        }
+
+        //method add range
+        public void AddRange(IEnumerable<IItem> newItems)
+        {
+            items.AddRange(newItems);
+        }
+
+        //method clear
+        public void Clear()
+        {
+            items.Clear();
+        }
+
+        //method Contains
+        public bool Contains(IItem item)
+        {
+            return items.Contains(item);
+        }
+
+        //method CopyTo
+        public void CopyTo(IItem[] array, int arrayIndex)
+        {
+            items.CopyTo(array, arrayIndex);
+        }
+
+        //method GetEnumerator
+        public IEnumerator<IItem> GetEnumerator()
+        {
+            return items.GetEnumerator();
+        }
+
+        //method GetItems
         public List<IItem> GetItems()
         {
-            return items;
+            return new List<IItem>(items);
         }
 
-        public bool TryAdd(IItem item)
+        //method remove
+        public bool Remove(IItem item)
         {
-            if (containerLimiter.CanAddItem(item))
-            {
-                items.Add(item);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return items.Remove(item);
         }
 
-        public bool TryAddRange(IEnumerable<IItem> newItems, List<IItem> canAddItems, List<IItem> cannotAddItems, bool allOnly = true)
-        {
-            bool canAdd = containerLimiter.CanAddItemArray(newItems, canAddItems, cannotAddItems);
-            if (canAdd)
-            {
-                items.AddRange(newItems);
-                return true;
-            }
-            else
-            {
-                if(allOnly == false)
-                {
-                    items.AddRange(canAddItems);
-                }
-                return false;
-            }
-        }
+        //method IEnamerable.GetEnumerator
+        IEnumerator IEnumerable.GetEnumerator()
+        { return GetEnumerator(); }
 
-        public string Serialize() => serializer.Serialize(this);
+    }
 
-        public async Task<string> SerializeAsync() => await serializer.SerializeAsync(this);
-
-        public void Deserialize(string value)
-        {
-            items = serializer.Deserialize(value);
-        }
-
-        public async void DeserializeAsync(string value)
-        {
-            items = await serializer.DeserializeAsync(value);
-        }
-
+    public class ItemContainerView
+    {
+        public void Show() { }
     }
 }
