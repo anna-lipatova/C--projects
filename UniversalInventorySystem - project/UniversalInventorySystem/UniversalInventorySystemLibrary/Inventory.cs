@@ -75,7 +75,13 @@ namespace UniversalInventorySystemLibrary
         public async void Deserialize(string value)
         {
             Inventory source = serializer.Deserialize(value);
-            CopyP
+            CopyPropertyFrom(source);
+        }
+
+        public async void DeserializeAsync(string value)
+        {
+            Inventory source = await serializer.DeserializeAsync(value);
+            CopyPropertyFrom(source);
         }
     }
 }
