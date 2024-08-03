@@ -56,7 +56,7 @@ namespace UniversalInventorySystemLibrary.Limiters
 
         }
 
-        public override bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems)
+        public override bool CanAddItemArray(ICollection<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems)
         {
             float currentWeight = GetTotalWeight();
             foreach(var newItem in items)

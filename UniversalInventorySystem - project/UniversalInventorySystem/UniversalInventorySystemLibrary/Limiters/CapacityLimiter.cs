@@ -10,18 +10,30 @@ namespace UniversalInventorySystemLibrary.Limiters
 {
     public class CapacityLimiter: ContainerLimiter
     {
-        public CapacityLimiter(IItemContainer itemContainer) : base(itemContainer)
+        private int _capacity;
+        private int Capacity => _capacity;
+        public CapacityLimiter(IItemContainer itemContainer, int capacity) : base(itemContainer)
         {
+            _capacity = capacity;
         }
 
-        public override bool CanAddItem(IItem item)
-        {
-            throw new NotImplementedException();
-        }
+        public override bool CanAddItem(IItem item) => _itemContainer.Count < Capacity;
 
-        public override bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems)
+        public override bool CanAddItemArray(ICollection<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems)
         {
-            throw new NotImplementedException ();
+            foreach (var item in items)
+            {
+                if(CanAddItem(item))
+                {
+                    canAddItems.Add(item);
+                }
+                else
+                {
+                    cannotAddItems.Add(item);
+                }
+            }
+
+            return cannotAddItems.Count == 0;
         }
     }
 }

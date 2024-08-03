@@ -11,7 +11,7 @@ namespace UniversalInventorySystemLibrary.Limiters
     public interface IContainerLimiter
     {
         bool CanAddItem(IItem item);
-        bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems);
+        bool CanAddItemArray(ICollection<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems);
 
     }
 
@@ -25,6 +25,6 @@ namespace UniversalInventorySystemLibrary.Limiters
         }
 
         public abstract bool CanAddItem(IItem item);
-        public abstract bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems);
+        public abstract bool CanAddItemArray(ICollection<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems);
     }
 }
