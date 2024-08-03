@@ -4,19 +4,84 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UniversalInventorySystemLibrary.Items;
+using UniversalInventorySystemLibrary.Container;
 
 namespace UniversalInventorySystemLibrary.Limiters
 {
-    public class WeightLimiter: IContainerLimiter
+    public class WeightLimiter: ContainerLimiter
     {
-        public bool CanAddItem(IItem item)
+        private float _maxWeight;
+        
+        public WeightLimiter(IItemContainer itemContainer, float capacity) : base(itemContainer)
         {
-            throw new NotImplementedException();
+            _maxWeight = capacity;
         }
 
-        public bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems)
+        public float GetTotalWeight()
         {
-            throw new NotImplementedException ();
+            float result = 0;
+            foreach (var item in _itemContainer.GetItems())
+            {
+                IItemWithWeight weight = item as IItemWithWeight;
+                if (weight == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    result += weight.GetWeight();
+                }
+            }
+
+            return result;
+        }
+
+        public override bool CanAddItem(IItem newItem)
+        {
+            IItemWithWeight itemWithWeight = newItem as IItemWithWeight;
+            if (itemWithWeight == null)
+            {
+                return true;
+            }
+            else
+            {
+                float currentWeight = GetTotalWeight();
+                if(currentWeight + itemWithWeight.GetWeight() <= _maxWeight)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+        public override bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems)
+        {
+            float currentWeight = GetTotalWeight();
+            foreach(var newItem in items)
+            {
+                IItemWithWeight itemWithWeight= newItem as IItemWithWeight;
+                if(itemWithWeight == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    float itemWeight = itemWithWeight.GetWeight();
+                    if (currentWeight + itemWeight <= _maxWeight)
+                    {
+                        currentWeight += itemWeight;
+                        canAddItems.Add(newItem);
+                    }
+                    else
+                    {
+                        cannotAddItems.Add(newItem);
+                    }
+                }
+            }
+
+            return cannotAddItems.Count == 0;
         }
     }
 }
