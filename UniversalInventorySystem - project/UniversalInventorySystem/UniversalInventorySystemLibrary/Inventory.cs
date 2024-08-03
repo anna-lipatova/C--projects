@@ -7,7 +7,6 @@ using System.Reflection;
 using UniversalInventorySystemLibrary.Container;
 using UniversalInventorySystemLibrary.Limiters;
 using UniversalInventorySystemLibrary.Serializer;
-using UnityEngine;
 using UniversalInventorySystemLibrary.Items;
 
 namespace UniversalInventorySystemLibrary
@@ -28,7 +27,7 @@ namespace UniversalInventorySystemLibrary
             return false;
         }
 
-        public bool TryAddRange(IEnumerable<IItem> newItems, List<IItem> canAddItems, List<IItem> cannotAddItems, bool allOnly = true)
+        public bool TryAddRange(ICollection<IItem> newItems, List<IItem> canAddItems, List<IItem> cannotAddItems, bool allOnly = true)
         {
             bool canAdd = containerLimiter.CanAddItemArray(newItems, canAddItems, cannotAddItems);
             if
@@ -47,7 +46,7 @@ namespace UniversalInventorySystemLibrary
             }
         }
 
-        public bool TryAddRange(IEnumerable<IItem> newItems, bool allOnly = true)
+        public bool TryAddRange(ICollection<IItem> newItems, bool allOnly = true)
         {
             return TryAddRange(newItems, new List<IItem>(), new List<IItem>(), allOnly);
         }

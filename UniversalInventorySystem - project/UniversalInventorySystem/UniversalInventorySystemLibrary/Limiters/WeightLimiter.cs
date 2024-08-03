@@ -41,7 +41,7 @@ namespace UniversalInventorySystemLibrary.Limiters
             IItemWithWeight itemWithWeight = newItem as IItemWithWeight;
             if (itemWithWeight == null)
             {
-                return true;
+                throw new Exception("Incorrect item type.");
             }
             else
             {
