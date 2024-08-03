@@ -72,7 +72,7 @@ namespace UniversalInventorySystemLibrary
             }
 
             source = null;
-            GC.Collect();
+            
         }
 
         public async void Deserialize(string value)
