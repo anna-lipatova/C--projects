@@ -11,22 +11,22 @@ namespace UniversalInventorySystemLibrary.Serializer
 {
     public class JsonSerializer: ISerializer
     {
-        public string Serialize(IItemContainer container)
+        public string Serialize(Inventory inventory)
         {
-            return JsonConvert.SerializeObject(container.GetItems());
+            return JsonConvert.SerializeObject(inventory);
         }
 
-        public async Task<string> SerializeAsync(IItemContainer container)
+        public async Task<string> SerializeAsync(Inventory inventory)
         {
-            return await Task.Run(() => Serialize(container));
+            return await Task.Run(() => Serialize(inventory));
         }
 
-        public List<IItem> Deserialize(string value)
+        public Inventory Deserialize(string value)
         {
-            return JsonConvert.DeserializeObject<List<IItem>>(value);
+            return JsonConvert.DeserializeObject<Inventory>(value);
         }
 
-        public async Task<List<IItem>> DeserializeAsync(string value)
+        public async Task<Inventory> DeserializeAsync(string value)
         {
             return await Task.Run(() => Deserialize(value));
         }
