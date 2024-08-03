@@ -5,14 +5,6 @@ using UniversalInventorySystemLibrary.Items;
 
 namespace UniversalInventorySystemLibrary.Container
 {
-
-    public interface IItemContainer : ICollection<IItem>
-    {
-        void AddRange(IEnumerable<IItem> newItems);
-        List<IItem> GetItems();
-
-    }
-
     public class BaseItemContainer: IItemContainer
     {
         private List<IItem> items;

@@ -17,7 +17,6 @@ namespace UniversalInventorySystemLibrary
         private IItemContainer container;
         private IContainerLimiter containerLimiter;
         private ISerializer serializer;
-        private MonoBehaviour coroutineStarter;
 
         public bool TryAdd(IItem item)
         {
@@ -71,6 +70,9 @@ namespace UniversalInventorySystemLibrary
                     property.SetValue(source, propertyValue, null);
                 }
             }
+
+            source = null;
+            GC.Collect();
         }
 
         public async void Deserialize(string value)

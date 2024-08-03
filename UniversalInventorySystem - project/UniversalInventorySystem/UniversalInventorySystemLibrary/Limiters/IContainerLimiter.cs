@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UniversalInventorySystemLibrary.Items;
+using UniversalInventorySystemLibrary.Container;
 
 namespace UniversalInventorySystemLibrary.Limiters
 {
@@ -12,5 +13,18 @@ namespace UniversalInventorySystemLibrary.Limiters
         bool CanAddItem(IItem item);
         bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems);
 
+    }
+
+    public abstract class ContainerLimiter: IContainerLimiter
+    {
+        protected IItemContainer _itemContainer;
+
+        public ContainerLimiter(IItemContainer itemContainer)
+        {
+            _itemContainer = itemContainer;
+        }
+
+        public abstract bool CanAddItem(IItem item);
+        public abstract bool CanAddItemArray(IEnumerable<IItem> items, List<IItem> canAddItems, List<IItem> cannotAddItems);
     }
 }
