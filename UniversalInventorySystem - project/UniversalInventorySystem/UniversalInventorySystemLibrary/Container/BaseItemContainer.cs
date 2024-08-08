@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Collections;
 using UniversalInventorySystemLibrary.Items;
+using UniversalInventorySystemLibrary.Attributes;
 
 namespace UniversalInventorySystemLibrary.Container
 {
+    /// <summary>
+    /// Represents a base container for storing items.
+    /// </summary>
     public class BaseItemContainer: IItemContainer
     {
         private List<IItem> items;
@@ -26,7 +30,10 @@ namespace UniversalInventorySystemLibrary.Container
             items.Add(item);
         }
 
-        //method add range
+        /// <summary>
+        /// Add a range of items to the container.
+        /// </summary>
+        /// <param name="newItems"></param>
         public void AddRange(IEnumerable<IItem> newItems)
         {
             items.AddRange(newItems);
@@ -56,7 +63,10 @@ namespace UniversalInventorySystemLibrary.Container
             return items.GetEnumerator();
         }
 
-        //method GetItems
+        /// <summary>
+        /// Returns a list of items contained in the container.
+        /// </summary>
+        /// <returns>A list of items in the container.</returns>
         public List<IItem> GetItems()
         {
             return new List<IItem>(items);
@@ -70,8 +80,27 @@ namespace UniversalInventorySystemLibrary.Container
 
         //method IEnamerable.GetEnumerator
         IEnumerator IEnumerable.GetEnumerator()
-        { return GetEnumerator(); }
+        { 
+            return GetEnumerator(); 
+        }
 
+        public override string ToString()
+        {
+            string result = string.Empty;
+            foreach (IItem item in items)
+            {
+                result = "{";
+                result += item.GetType();
+                var properties = ItemUtils.GetItemPropertiesInfo(item);
+                foreach (var property in properties)
+                {
+                    result += $", {property.Name} = {property.Value}";
+                }
+                result += "},";
+            }
+
+            return result;
+        }
     }
 
     public class ItemContainerView

@@ -20,7 +20,7 @@ namespace UniversalInventorySystemLibrary.Items
         public static List<ItemPropertyInfo> GetItemPropertiesInfo<T>(T item) where T: IItem
         {
             List<ItemPropertyInfo> itemProperties = new List<ItemPropertyInfo>();
-            var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            var fields = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             foreach (var field in fields)
             {

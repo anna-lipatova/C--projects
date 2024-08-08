@@ -9,5 +9,6 @@ namespace UniversalInventorySystemLibrary.Items
 {
     public class BaseItem: ScriptableObject, IItem
     {
+        public string Name { get; set; }
     }
 }
