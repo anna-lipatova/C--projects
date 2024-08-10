@@ -8,6 +8,7 @@ using UniversalInventorySystemLibrary.Container;
 using UniversalInventorySystemLibrary.Limiters;
 using UniversalInventorySystemLibrary.Serializer;
 using UniversalInventorySystemLibrary.Items;
+using static UniversalInventorySystemLibrary.Container.Filterer;
 
 namespace UniversalInventorySystemLibrary
 {
@@ -16,6 +17,13 @@ namespace UniversalInventorySystemLibrary
         private IItemContainer container;
         private IContainerLimiter containerLimiter;
         private ISerializer serializer;
+
+        public Inventory(IItemContainer container, IContainerLimiter containerLimiter, ISerializer serializer)
+        {
+            this.container = container;
+            this.containerLimiter = containerLimiter;
+            this.serializer = serializer;
+        }
 
         public bool TryAdd(IItem item)
         {
@@ -84,6 +92,37 @@ namespace UniversalInventorySystemLibrary
         {
             Inventory source = await serializer.DeserializeAsync(value);
             CopyPropertyFrom(source);
+        }
+
+        public void Sort() => QuickSorter.Sort<BaseItem>(container.GetItems(), "Name");
+
+        public async void SortAsync() => await QuickSorter.SortAsync<BaseItem>(container.GetItems(), "Name");
+
+        public void Sort<T>(string propertyName) where T : class
+        {
+            QuickSorter.Sort<T>(container.GetItems(), propertyName);
+        }
+
+        public async void  SortAsync<T>(string propertyName) where T : class
+        {
+            await QuickSorter.SortAsync<T>(container.GetItems(), propertyName);
+        }
+
+        public List<T> Filter<T>(string fieldName, object value, ComparisonType comparisonType) where T : class
+        {
+            return Filterer.Filter<T>(container.GetItems(), fieldName, value, comparisonType);
+        }
+
+        public async Task<List<T>> FilterAsync<T>(string fieldName, object value, ComparisonType comparisonType) where T: class
+        {
+            return await Task.Run(() =>
+                Filterer.Filter<T>(container.GetItems(), fieldName, value, comparisonType)
+            );
+        }
+
+        public override string ToString()
+        {
+            return $"Limiter: {containerLimiter}, Serializer: {serializer}, Items: {container}";
         }
     }
 }
