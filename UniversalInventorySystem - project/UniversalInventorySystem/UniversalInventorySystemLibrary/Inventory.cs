@@ -233,7 +233,7 @@ namespace UniversalInventorySystemLibrary
 
         public override string ToString()
         {
-            return $"Limiter: {containerLimiter}, Serializer: {serializer}, Items: {container}";
+            return $"Limiter: {containerLimiter}, \nSerializer: {serializer}, \nItems: {container}";
         }
     }
 }

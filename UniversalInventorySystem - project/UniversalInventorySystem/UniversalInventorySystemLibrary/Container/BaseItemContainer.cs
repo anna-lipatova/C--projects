@@ -89,22 +89,17 @@ namespace UniversalInventorySystemLibrary.Container
             string result = string.Empty;
             foreach (IItem item in items)
             {
-                result = "{";
+                result += "\n";
                 result += item.GetType();
                 var properties = ItemUtils.GetItemPropertiesInfo(item);
                 foreach (var property in properties)
                 {
                     result += $", {property.Name} = {property.Value}";
                 }
-                result += "},";
+                //result += "},";
             }
 
             return result;
         }
-    }
-
-    public class ItemContainerView
-    {
-        public void Show() { }
     }
 }
