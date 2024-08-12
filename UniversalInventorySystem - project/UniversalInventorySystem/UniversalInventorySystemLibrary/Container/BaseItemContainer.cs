@@ -67,10 +67,7 @@ namespace UniversalInventorySystemLibrary.Container
         /// Returns a list of items contained in the container.
         /// </summary>
         /// <returns>A list of items in the container.</returns>
-        public List<IItem> GetItems()
-        {
-            return new List<IItem>(items);
-        }
+        public List<IItem> GetItems() => items;
 
         //method remove
         public bool Remove(IItem item)

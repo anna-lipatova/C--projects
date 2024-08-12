@@ -85,13 +85,19 @@ namespace UniversalInventorySystemLibrary.Container
         /// <exception cref="ArgumentException">Thrown if the specified field does not exist on the type.</exception>
         public static void Sort<T>(List<IItem> items, string fieldName) where T: class
         {
-            List<T> itemWithCorrectType = new List<T>();
+            List<IItem> itemWithCorrectType = new List<IItem>();
+            List<IItem> itemWithIncorrectType = new List<IItem>();
+
             foreach (var item in items)
             {
                 T itemT = item as T;
                 if (itemT != null)
                 {
-                    itemWithCorrectType.Add(itemT);
+                    itemWithCorrectType.Add(item);
+                }
+                else
+                {
+                    itemWithIncorrectType.Add(item);
                 }
             }
 
@@ -108,6 +114,10 @@ namespace UniversalInventorySystemLibrary.Container
             }
 
             Sort(itemWithCorrectType, 0, itemWithCorrectType.Count - 1, propertyInfo);
+
+            items.Clear();
+            items.AddRange(itemWithCorrectType);
+            items.AddRange(itemWithIncorrectType);
         }
 
         /// <summary>
@@ -120,13 +130,19 @@ namespace UniversalInventorySystemLibrary.Container
         /// <exception cref="ArgumentException">Thrown if the specified field does not exist on the type.</exception>
         public static async Task SortAsync<T>(List<IItem> items, string fieldName) where T: class
         {
-            List<T> itemWithCorrectType = new List<T>();
+            List<IItem> itemWithCorrectType = new List<IItem>();
+            List<IItem> itemWithIncorrectType = new List<IItem>();
+
             foreach (var item in items)
             {
                 T itemT = item as T;
                 if(itemT != null)
                 {
-                    itemWithCorrectType.Add(itemT);
+                    itemWithCorrectType.Add(item);
+                }
+                else
+                {
+                    itemWithIncorrectType.Add(item);
                 }
             }
 
@@ -147,6 +163,9 @@ namespace UniversalInventorySystemLibrary.Container
                 Sort(itemWithCorrectType, 0, itemWithCorrectType.Count - 1, propertyInfo);
             });
 
+            items.Clear();
+            items.AddRange(itemWithCorrectType);
+            items.AddRange(itemWithIncorrectType);
         }
     }
 }
