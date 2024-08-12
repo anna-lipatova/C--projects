@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
-using UniversalInventorySystemLibrary.Container;
-using UniversalInventorySystemLibrary.Items;
 
 namespace UniversalInventorySystemLibrary.Serializer
 {
+    /// <summary>
+    /// Provides methods for serializing and deserializing 
+    /// inventory objects to and from XML.
+    /// </summary>
     public class XMLSerializer: ISerializer
     {
         public string Serialize(Inventory inventory)

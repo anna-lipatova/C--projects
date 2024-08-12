@@ -8,6 +8,9 @@ using UniversalInventorySystemLibrary.Container;
 
 namespace UniversalInventorySystemLibrary.Limiters
 {
+    /// <summary>
+    /// Represents a limiter that restricts the number of items in a container based on capacity.
+    /// </summary>
     public class CapacityLimiter: ContainerLimiter
     {
         private int _capacity;
@@ -34,6 +37,11 @@ namespace UniversalInventorySystemLibrary.Limiters
             }
 
             return cannotAddItems.Count == 0;
+        }
+
+        public override string ToString()
+        {
+            return $"{nameof(CapacityLimiter)}, Capacity = {Capacity}";
         }
     }
 }

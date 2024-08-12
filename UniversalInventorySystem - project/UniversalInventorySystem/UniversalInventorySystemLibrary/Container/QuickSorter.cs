@@ -8,8 +8,18 @@ using UniversalInventorySystemLibrary.Items;
 
 namespace UniversalInventorySystemLibrary.Container
 {
+    /// <summary>
+    /// Provides methods for sorting items in the inventory system using QuickSort algorithm.
+    /// </summary>
     public static class QuickSorter
     {
+        /// <summary>
+        /// Swaps the elements as the specified indicies.
+        /// </summary>
+        /// <typeparam name="T">The type of the items in the list.</typeparam>
+        /// <param name="items">The list of items.</param>
+        /// <param name="indexA">The index of the first element to swap.</param>
+        /// <param name="indexB">The index of the second element to swap.</param
         private static void Swap<T>(List<T> items, int indexA, int indexB) where T : class
         {
             T temp = items[indexA];
@@ -17,6 +27,15 @@ namespace UniversalInventorySystemLibrary.Container
             items[indexB] = temp;
         }
 
+        /// <summary>
+        /// Partitions the list into two halvef and returns the pivot index.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the list.</typeparam>
+        /// <param name="items">The list of items to partition.</param>
+        /// <param name="left">The starting index of the range to sort.</param>
+        /// <param name="right">The ending index of the range to sort.</param>
+        /// <param name="propertyInfo">The property information to sort by.</param>
+        /// <returns>The index of the pivot.</returns>
         private static int Partition<T>(List<T> items, int left, int right, PropertyInfo propertyInfo) where T: class
         {
             T pivot = items[right];
@@ -37,6 +56,14 @@ namespace UniversalInventorySystemLibrary.Container
             return i;
         }
 
+        /// <summary>
+        /// Sorts the items in the specified range using the QuickSort algorithm.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the list.</typeparam>
+        /// <param name="items">The list of items to sort.</param>
+        /// <param name="left">The starting index of the range to sort.</param>
+        /// <param name="right">The ending index of the range to sort.</param>
+        /// <param name="propertyInfo">The property information to sort by.</param>
         private static void Sort<T>(List<T> items, int left, int right, PropertyInfo propertyInfo) where T : class
         {
             if(left >= right)
@@ -49,6 +76,13 @@ namespace UniversalInventorySystemLibrary.Container
             Sort(items, pivotIndex + 1, right, propertyInfo);
         }
 
+        /// <summary>
+        /// Sorts the items in the list based on the specified field.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the list.</typeparam>
+        /// <param name="items">The list of items to sort.</param>
+        /// <param name="fieldName">The name of the field to sort by.</param>
+        /// <exception cref="ArgumentException">Thrown if the specified field does not exist on the type.</exception>
         public static void Sort<T>(List<IItem> items, string fieldName) where T: class
         {
             List<T> itemWithCorrectType = new List<T>();
@@ -76,6 +110,14 @@ namespace UniversalInventorySystemLibrary.Container
             Sort(itemWithCorrectType, 0, itemWithCorrectType.Count - 1, propertyInfo);
         }
 
+        /// <summary>
+        /// Asynchronously sorts the items in the list based on the specified field.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the list.</typeparam>
+        /// <param name="items">The list ofitems to sort.</param>
+        /// <param name="fieldName">The name of the field to sort by.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentException">Thrown if the specified field does not exist on the type.</exception>
         public static async Task SortAsync<T>(List<IItem> items, string fieldName) where T: class
         {
             List<T> itemWithCorrectType = new List<T>();

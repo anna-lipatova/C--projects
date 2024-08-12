@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using UniversalInventorySystemLibrary.Container;
-using UniversalInventorySystemLibrary.Items;
+
 
 namespace UniversalInventorySystemLibrary.Serializer
 {
+    /// <summary>
+    /// Provides methods for serializing and deserializing 
+    /// inventory objects to and from JSON.
+    /// </summary>
     public class JsonSerializer: ISerializer
     {
         public string Serialize(Inventory inventory)
