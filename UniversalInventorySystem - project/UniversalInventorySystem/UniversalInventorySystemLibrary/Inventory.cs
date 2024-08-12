@@ -166,7 +166,7 @@ namespace UniversalInventorySystemLibrary
         /// </summary>
         /// <typeparam name="T">The type of the items in the inventory.</typeparam>
         /// <param name="propertyName">The name of the property to sort by.</param>
-        public async void  SortAsync<T>(string propertyName) where T : class
+        public async void SortAsync<T>(string propertyName) where T : class
         {
             await QuickSorter.SortAsync<T>(container.GetItems(), propertyName);
         }
@@ -201,11 +201,29 @@ namespace UniversalInventorySystemLibrary
             );
         }
 
+        /// <summary>
+        /// Finds the items in the inventory based on a specified field and value.
+        /// </summary>
+        /// <typeparam name="T">The type of the items in the inventory.</typeparam>
+        /// <param name="fieldName">The name of the field to search by.</param>
+        /// <param name="value">The value to search for.</param>
+        /// <returns>A task that represents the asynchronous operation. 
+        /// The task result contains a list of items that match the search criteria.
+        /// </returns>
         public List<T> Find<T>(string fieldName, object value) where T : class
         {
             return Finder.Find<T>(container.GetItems(), fieldName, value);
         }
 
+        /// <summary>
+        /// Asynchronously finds the items in the inventory based on a specified field and value.
+        /// </summary>
+        /// <typeparam name="T">The type of the items in the inventory.</typeparam>
+        /// <param name="fieldName">The name of the field to search by.</param>
+        /// <param name="value">The value to search for.</param>
+        /// <returns>A task that represents the asynchronous operation. 
+        /// The task result contains a list of items that match the search criteria.
+        /// </returns>
         public async Task<List<T>> FindAsync<T>(string fieldName, object value) where T: class
         {
             return await Task.Run(() =>
