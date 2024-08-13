@@ -22,6 +22,9 @@ namespace UniversalInventorySystemLibrary
         private IContainerLimiter containerLimiter;
         private ISerializer serializer;
 
+        public int ItemsCount => container.Count;
+        public List<IItem> Items => container.GetItems();
+
         public Inventory(IItemContainer container, IContainerLimiter containerLimiter, ISerializer serializer)
         {
             this.container = container;

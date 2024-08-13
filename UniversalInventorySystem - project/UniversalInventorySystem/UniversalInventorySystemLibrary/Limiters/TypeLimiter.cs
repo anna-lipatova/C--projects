@@ -30,8 +30,8 @@ namespace UniversalInventorySystemLibrary.Limiters
                 throw new Exception("Incorrect item type.");
             }
 
-            int currentCount = GetTotalCountItemWithType(itemWithType.GetItemType());
-            if(currentCount < _limits[itemWithType.GetItemType()])
+            int currentCount = GetTotalCountItemWithType(itemWithType.ItemType);
+            if(currentCount < _limits[itemWithType.ItemType])
             {
                 return true;
             }
@@ -48,7 +48,7 @@ namespace UniversalInventorySystemLibrary.Limiters
                 if (itemWithType == null)
                     continue;
 
-                EnumT type = itemWithType.GetItemType();
+                EnumT type = itemWithType.ItemType;
                 if(countItemWithTypes.ContainsKey(type) == false)
                 {
                     countItemWithTypes.Add(type, 0);
@@ -63,7 +63,7 @@ namespace UniversalInventorySystemLibrary.Limiters
                 if (itemWithType == null)
                     continue;
 
-                EnumT type = itemWithType.GetItemType();
+                EnumT type = itemWithType.ItemType;
                 if (countItemWithTypes[type] < _limits[type])
                 {
                     countItemWithTypes[type]++;
@@ -92,7 +92,7 @@ namespace UniversalInventorySystemLibrary.Limiters
                 if (itemWithType == null)
                     continue;
 
-                if (type.Equals(itemWithType.GetItemType()))
+                if (type.Equals(itemWithType.ItemType))
                     result++;
             }
 
@@ -111,7 +111,7 @@ namespace UniversalInventorySystemLibrary.Limiters
                 if (itemWithType == null)
                     continue;
 
-                EnumT type = itemWithType.GetItemType();
+                EnumT type = itemWithType.ItemType;
                 if (result.ContainsKey(type))
                 {
                     result[type]++;

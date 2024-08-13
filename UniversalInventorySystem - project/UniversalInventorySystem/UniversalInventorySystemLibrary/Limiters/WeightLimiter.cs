@@ -16,9 +16,9 @@ namespace UniversalInventorySystemLibrary.Limiters
         private float _maxWeight;
         public float MaxWeight => _maxWeight;
         
-        public WeightLimiter(IItemContainer itemContainer, float capacity) : base(itemContainer)
+        public WeightLimiter(IItemContainer itemContainer, float maxWeight) : base(itemContainer)
         {
-            _maxWeight = capacity;
+            _maxWeight = maxWeight;
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace UniversalInventorySystemLibrary.Limiters
                 }
                 else
                 {
-                    result += weight.GetWeight();
+                    result += weight.Weight;
                 }
             }
 
@@ -54,7 +54,7 @@ namespace UniversalInventorySystemLibrary.Limiters
             else
             {
                 float currentWeight = GetTotalWeight();
-                if(currentWeight + itemWithWeight.GetWeight() <= _maxWeight)
+                if(currentWeight + itemWithWeight.Weight <= _maxWeight)
                 {
                     return true;
                 }
@@ -76,7 +76,7 @@ namespace UniversalInventorySystemLibrary.Limiters
                 }
                 else
                 {
-                    float itemWeight = itemWithWeight.GetWeight();
+                    float itemWeight = itemWithWeight.Weight;
                     if (currentWeight + itemWeight <= _maxWeight)
                     {
                         currentWeight += itemWeight;

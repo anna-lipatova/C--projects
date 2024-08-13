@@ -26,7 +26,7 @@ namespace UniversalInventorySystemLibrary.Limiters
         {
             foreach (var item in items)
             {
-                if(CanAddItem(item))
+                if(_itemContainer.Count + canAddItems.Count < Capacity)
                 {
                     canAddItems.Add(item);
                 }

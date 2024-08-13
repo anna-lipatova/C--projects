@@ -85,8 +85,19 @@ namespace UniversalInventorySystemApp
             //container.TryAddRange(new List<ToolItem>(), null, null);
             var filteredItems = inventory.Filter<ToolItem>("Strength", 2f, Filterer.ComparisonType.LessThan);
             Console.WriteLine();
-            Console.WriteLine(inventory);
-            
+            Console.WriteLine("FIltered: Strength < 2f");
+            foreach (var item in filteredItems)
+            {
+                string result = item.GetType().Name;
+                var properties = ItemUtils.GetItemPropertiesInfo(item);
+                foreach(var property in properties)
+                {
+                    result += $", {property.Name} = {property.Value}";
+                }
+
+                Console.WriteLine(result);
+            }
+
         }
     }
 }

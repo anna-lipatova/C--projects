@@ -8,6 +8,6 @@ namespace UniversalInventorySystemLibrary.Items
 {
     public interface IItemWithWeight: IItem
     {
-        float GetWeight();
+        float Weight { get; }
     }
 }

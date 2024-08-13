@@ -8,6 +8,6 @@ namespace UniversalInventorySystemLibrary.Items
 {
     public interface IItemWithType<EnumT> : IItem where EnumT : Enum
     {
-        EnumT GetItemType();
+        EnumT ItemType { get; }
     }
 }
