@@ -51,7 +51,6 @@ namespace UniversalInventorySystemApp
         static void Main(string[] args)
         {
             //Create simple inventory
-            //BaseItemContainer container = new BaseItemContainer();
 
             IItemContainer container = new BaseItemContainer();
 
@@ -76,13 +75,10 @@ namespace UniversalInventorySystemApp
             Console.WriteLine();
             Console.WriteLine(inventory);
 
-            //container.Deserialize(json);
             inventory.SortByName();
             Console.WriteLine();
             Console.WriteLine(inventory);
 
-            //container.TryAdd(new ToolItem());
-            //container.TryAddRange(new List<ToolItem>(), null, null);
             var filteredItems = inventory.Filter<ToolItem>("Strength", 2f, Filterer.ComparisonType.LessThan);
             Console.WriteLine();
             Console.WriteLine("FIltered: Strength < 2f");
