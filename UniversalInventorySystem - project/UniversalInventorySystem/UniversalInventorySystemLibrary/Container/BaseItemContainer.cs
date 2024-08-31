@@ -75,7 +75,7 @@ namespace UniversalInventorySystemLibrary.Container
             return items.Remove(item);
         }
 
-        //method IEnamerable.GetEnumerator
+        //IEnamerable.GetEnumerator
         IEnumerator IEnumerable.GetEnumerator()
         { 
             return GetEnumerator(); 

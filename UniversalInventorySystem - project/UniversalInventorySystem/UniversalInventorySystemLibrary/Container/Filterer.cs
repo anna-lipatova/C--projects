@@ -29,10 +29,6 @@ namespace UniversalInventorySystemLibrary.Container
         /// <returns>Returns True if the comparison is successful, False otherwise.</returns>
         private static bool CompareValues<T>(T itemValue, T value, ComparisonType comparisonType)
         {
-            Type type = typeof(T);
-            Type type1 = itemValue.GetType();
-            Type type2 = value.GetType();
-
             int comperisonResult = Comparer<T>.Default.Compare(itemValue, value);
 
             switch (comparisonType)
