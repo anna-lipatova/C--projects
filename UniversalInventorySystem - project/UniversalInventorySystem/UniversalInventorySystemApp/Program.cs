@@ -15,13 +15,17 @@ namespace UniversalInventorySystemApp
     internal class Program
     {
         private static string json = "";
-
+        
         public class ToolItem: BaseItem
         {
             private float _strength;
 
             [ItemProperty(false)]
             public float Strength => _strength;
+
+            //for localization
+            //[PropertyLocalizationKey("ToolItemName")]
+            //public override string Name => base.Name;
 
             public ToolItem(string name, float strength) : base(name)
             {
@@ -41,6 +45,10 @@ namespace UniversalInventorySystemApp
 
             [ItemProperty(false)]
             public PlantType Type => _type;
+
+            //for localization
+            //[PropertyLocalizationKey("PlantItemName")]
+            //public override string Name => base.Name;
 
             public PlantItem(string name, PlantType type) : base(name)
             {
