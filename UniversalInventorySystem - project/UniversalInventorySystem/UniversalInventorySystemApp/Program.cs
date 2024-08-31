@@ -14,7 +14,7 @@ namespace UniversalInventorySystemApp
 {
     internal class Program
     {
-        private static string json = "";
+        //private static string json = "";
         
         public class ToolItem: BaseItem
         {
@@ -103,6 +103,12 @@ namespace UniversalInventorySystemApp
 
                 Console.WriteLine(result);
             }
+            Console.WriteLine("=========================================================================");
+
+            string toJson = inventory.Serialize();
+            Console.WriteLine();
+            Console.WriteLine("Serialized Inventory to JSON:");
+            Console.WriteLine(toJson);
 
         }
     }
