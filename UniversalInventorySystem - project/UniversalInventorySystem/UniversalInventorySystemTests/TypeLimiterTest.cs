@@ -79,7 +79,7 @@ namespace UniversalInventorySystemTests
             inventory.TryAddRange(items, canAdd, cannotAdd, false);
 
             Assert.AreEqual(cannotAdd.Count, 1);
-            Assert.AreEqual((canAdd[0] as BaseItem).Name, "item5");
+            Assert.AreEqual((cannotAdd[0] as BaseItem).Name, "item5");
         }
     }
 }
