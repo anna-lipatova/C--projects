@@ -76,16 +76,18 @@ namespace UniversalInventorySystemApp
 
             inventory.TryAddRange(tools);
             Console.WriteLine(inventory);
-
-
+            Console.WriteLine("=========================================================================");
+                               
             inventory.TryAdd(new PlantItem("Wheat", PlantType.Wheat));
 
             Console.WriteLine();
             Console.WriteLine(inventory);
+            Console.WriteLine("=========================================================================");
 
             inventory.SortByName();
             Console.WriteLine();
             Console.WriteLine(inventory);
+            Console.WriteLine("=========================================================================");
 
             var filteredItems = inventory.Filter<ToolItem>("Strength", 2f, Filterer.ComparisonType.LessThan);
             Console.WriteLine();
