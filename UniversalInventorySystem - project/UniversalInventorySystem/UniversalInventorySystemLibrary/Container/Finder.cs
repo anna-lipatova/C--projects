@@ -47,7 +47,7 @@ namespace UniversalInventorySystemLibrary.Container
             }
 
             List<T> foundItems = new List<T>();
-            foreach (var item in foundItems)
+            foreach (var item in itemWithCorrectType)
             {
                 var itemValue = propertyInfo.GetValue(item);
                 if (itemValue != null && itemValue.Equals(value))
