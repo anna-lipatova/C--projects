@@ -73,5 +73,24 @@ namespace UniversalInventorySystemTests
 
             Assert.AreEqual(result[0].Name, "item2");
         }
+
+        [TestMethod]
+        public void TestFind()
+        {
+            Inventory inventory = CapacityLimiterTest.CreateInventoryWithCapacityLimiter(5);
+
+            IItem[] items = new IItem[2]
+            {
+                new BaseItem("item1"),
+                new BaseItem("item2")
+            };
+
+            inventory.TryAddRange(items);
+
+            var foundItems = inventory.Find<BaseItem>("Name", "item2");
+
+            Assert.AreEqual(1, foundItems.Count);
+            Assert.AreEqual("item2", foundItems[0].Name);
+        }
     }
 }
