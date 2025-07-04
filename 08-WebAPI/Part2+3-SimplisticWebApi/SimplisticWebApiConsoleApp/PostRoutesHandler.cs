@@ -4,10 +4,12 @@ public class PostRoutesHandler : ISimplisticRoutesHandler {
     public void RegisterRoutes(RouteMap routeMap) {
         Console.WriteLine("+++ PostRoutesHandler.RegisterRoutes() called.");
 
-        // TODO: Has to compile without any changes !!!
-        // routeMap.Map("/services/PostCode/getDataAsJson", GetPostCodesByCityAndStreet);
+        // TODO: Has to compile without any changes !!! //.Method => MethodInfo 
+        routeMap.Map("/services/PostCode/getDataAsJson", GetPostCodesByCityAndStreet);
     }
 
+
+    //je potreba to co vrati zaserializovat pomoci JsonSerializer a vratit ten zaserializovany JSON
     public IReadOnlyList<PostCodeItem> GetPostCodesByCityAndStreet(string cityOrPart, string nameStreet) {
         return cityOrPart switch {
             "Praha" => nameStreet switch {

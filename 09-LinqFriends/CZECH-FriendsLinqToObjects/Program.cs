@@ -10,35 +10,210 @@
 
 		var groupA = new Group();
 
-		HighlightedWriteLine("Assignment 1: Vsechny osoby, ktere nepovazuji nikoho za sveho pritele.");
+		HighlightedWriteLine("Assignment 1: Vsechny osoby," +
+			" ktere nepovazuji nikoho za sveho pritele.");
+
+        Console.WriteLine("Main: foreach:");
+        var peopleWithoutFriends = from p in groupA where p.Friends.Any() == false select p;
+		foreach (var person in peopleWithoutFriends)
+		{
+            Console.WriteLine($"Main: got {person}");
+        }
+
 
 		Console.WriteLine();
-		HighlightedWriteLine("Assignment 2: Vsechny osoby setridene vzestupne podle jmena, ktere jsou starsi 15 let, a jejichz jmeno zacina na pismeno D nebo vetsi.");
+		HighlightedWriteLine("Assignment 2: Vsechny osoby setridene " +
+			"vzestupne podle jmena, ktere jsou starsi 15 let, " +
+			"a jejichz jmeno zacina na pismeno D nebo vetsi.");
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 3: Vsechny osoby, ktere jsou ve skupine nejstarsi, a jejichz jmeno zacina na pismeno T nebo vetsi.");
+        Console.WriteLine("Main: foreach:");
+		var peopleAreOlderThen15AndHavingNameFirstLetterAtLeastD = 
+			from p in groupA where p.Age > 15 where p.Name[0] >= 'D' orderby p.Name select p;
+		//complexity is O(N) + O(c) + O(c*logc) where c is c < N
+		
+		foreach (var person in peopleAreOlderThen15AndHavingNameFirstLetterAtLeastD)
+		{
+            Console.WriteLine($"Main: got {person}");
+        }
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 4: Vsechny osoby, ktere jsou starsi nez vsichni jejich pratele.");
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 5: Vsechny osoby, ktere nemaji zadne pratele (ktere nikoho nepovazuji za sveho pritele, a zaroven ktere nikdo jiny nepovazuje za sveho pritele).");
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 3: Vsechny osoby, " +
+			"ktere jsou ve skupine nejstarsi, " +
+			"a jejichz jmeno zacina na pismeno T nebo vetsi.");
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 6: Vsechny osoby, ktere jsou necimi nejstarsimi prateli (s opakovanim).");
+        
+        //var theOldestPeopleWithNameFirstLetterAtLeastT = from p in groupA where p.Age == (groupA.Max(p2 => p2.Age)) where p.Name[0] >= 'T' select p;
+        //var theOldestPeopleWithNameFirstLetterAtLeastT = from p in groupA let maxAge = groupA.Max(p2 => p2.Age) where p.Age == maxAge where p.Name[0] >= 'T' select p;
+        //opakujou se vypisy!!!
+        // Main: foreach:
+        //Group is being enumerated.
+        //Group is being enumerated.
+        //All elements of Group have been enumerated.
+        //Group is being enumerated.
+        //All elements of Group have been enumerated.
+        //Group is being enumerated.
+        //and so on
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 6B: Vsechny osoby, ktere jsou necimi nejstarsimi prateli (bez opakovani).");
+        var theOldestAge = groupA.Max(p => p.Age);
+		var theOldestPeopleWithNameFirstLetterAtLeastT = from p in groupA where p.Age == theOldestAge where p.Name[0] >= 'T' select p;
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestPeopleWithNameFirstLetterAtLeastT)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 7: Vsechny osoby, ktere jsou nejstarsimi prateli osoby starsi nez ony samy (s opakovanim).");
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 7B: Vsechny osoby, ktere jsou nejstarsimi prateli osoby starsi nez ony samy (bez opakovani).");
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 4: Vsechny osoby, " +
+			"ktere jsou starsi nez vsichni jejich pratele.");
 
-		Console.WriteLine();
-		HighlightedWriteLine("Assignment 7C: Vsechny osoby, ktere jsou nejstarsimi prateli osoby starsi nez ony samy (bez opakovani a setridene sestupne podle jmena osoby).");
-	}
+        var peopleOlderThenAllTheirFriends = from p in groupA where p.Friends.Any(p2 => p2.Age > p.Age) == false select p;
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in peopleOlderThenAllTheirFriends)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 5: Vsechny osoby, " +
+			"ktere nemaji zadne pratele " +
+			"(ktere nikoho nepovazuji za sveho pritele," +
+			" a zaroven ktere nikdo jiny nepovazuje za sveho pritele).");
+
+        var theMostUnfriendlyPeople = from p in groupA where p.Friends.Any() == false where (from p2 in groupA where p2.Friends.Contains(p) select p2).Any() == false select p;
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theMostUnfriendlyPeople)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 6: Vsechny osoby, " +
+			"ktere jsou necimi nejstarsimi prateli (s opakovanim).");
+
+		//first way
+        var theOldestFriends = groupA.Where(
+			p => p.Friends.Any()).SelectMany(
+			//3. *
+			p => { 
+				int maxAge = p.Friends.Max(p2 => p2.Age);
+				//1. find max age
+				return p.Friends.Where(p2 => p2.Age == maxAge);
+				//2. return friends with max age
+			}	
+			);
+        //but prints out that bad:
+        /*
+		 Main: foreach:
+*** Group is being enumerated.
+ # Person("Hubert").Friends is being enumerated.
+ # Person("Anna").Friends is being enumerated.
+ # Person("Frantisek").Friends is being enumerated.
+ # Person("Frantisek").Friends is being enumerated.
+ # Person("Frantisek").Friends is being enumerated.
+Main: got Person(Name = "Anna", Age = 22)
+ # Person("Blazena").Friends is being enumerated.
+ # Person("Blazena").Friends is being enumerated.
+ # Person("Blazena").Friends is being enumerated.
+Main: got Person(Name = "Ursula", Age = 22)
+Main: got Person(Name = "Vendula", Age = 22)
+ # Person("Ursula").Friends is being enumerated.
+ # Person("Ursula").Friends is being enumerated.
+ # Person("Ursula").Friends is being enumerated.
+Main: got Person(Name = "Blazena", Age = 18)
+Main: got Person(Name = "Daniela", Age = 18)
+ # Person("Daniela").Friends is being enumerated.
+ # Person("Daniela").Friends is being enumerated.
+ # Person("Daniela").Friends is being enumerated.
+Main: got Person(Name = "Ursula", Age = 22)
+ # Person("Emil").Friends is being enumerated.
+ # Person("Emil").Friends is being enumerated.
+ # Person("Emil").Friends is being enumerated.
+Main: got Person(Name = "Vendula", Age = 22)
+ # Person("Vendula").Friends is being enumerated.
+ # Person("Vendula").Friends is being enumerated.
+ # Person("Vendula").Friends is being enumerated.
+Main: got Person(Name = "Emil", Age = 21)
+ # Person("Cyril").Friends is being enumerated.
+ # Person("Cyril").Friends is being enumerated.
+ # Person("Cyril").Friends is being enumerated.
+Main: got Person(Name = "Daniela", Age = 18)
+ # Person("Gertruda").Friends is being enumerated.
+ # Person("Gertruda").Friends is being enumerated.
+ # Person("Gertruda").Friends is being enumerated.
+Main: got Person(Name = "Frantisek", Age = 15)
+*** All elements of Group have been enumerated.
+		 */
+
+		//second way
+        theOldestFriends = from p in groupA let maxAge = p.Friends.DefaultIfEmpty(new Person { Age = 0, Name = ""}).Max(p2 => p2.Age) from p2 in p.Friends where p2.Age == maxAge select p2;
+
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriends)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 6B: Vsechny osoby, " +
+			"ktere jsou necimi nejstarsimi prateli (bez opakovani).");
+
+		theOldestFriends = theOldestFriends.Distinct();
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriends)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 7: Vsechny osoby, " +
+			"ktere jsou nejstarsimi prateli osoby " +
+			"starsi nez ony samy (s opakovanim).");
+
+		var theOldestFriendsOfYoungerPeople = groupA.Where(person =>
+			person.Friends.Any() &&
+			person.Friends.Max(friend => friend.Age) < person.Age
+		).Select(person => person.Friends.OrderByDescending(friend => friend.Age).First()
+		);
+
+		//alternative way
+		//var theOldestFriendsOfYoungerPeople = (from person in groupA from friend in person.Friends where friend.Age == person.Friends.Max(friend => friend.Age) && friend.Age < person.Age select friend);
+
+		Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriendsOfYoungerPeople)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 7B: Vsechny osoby, " +
+			"ktere jsou nejstarsimi prateli osoby " +
+			"starsi nez ony samy (bez opakovani).");
+
+		theOldestFriendsOfYoungerPeople = theOldestFriendsOfYoungerPeople.Distinct();
+
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriendsOfYoungerPeople)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+
+        Console.WriteLine();
+		HighlightedWriteLine("Assignment 7C: Vsechny osoby, " +
+			"ktere jsou nejstarsimi prateli osoby starsi nez ony" +
+			" samy (bez opakovani a setridene sestupne podle jmena osoby).");
+
+		theOldestFriendsOfYoungerPeople = theOldestFriendsOfYoungerPeople.OrderByDescending(p => p.Name);
+
+        Console.WriteLine("Main: foreach:");
+        foreach (var person in theOldestFriendsOfYoungerPeople)
+        {
+            Console.WriteLine($"Main: got {person}");
+        }
+    }
 
 	public static void HighlightedWriteLine(string s) {
 		ConsoleColor oldColor = Console.ForegroundColor;
